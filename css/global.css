@@ -1,0 +1,143 @@
+/* ========== GLOBAL NAV SYSTEM ========== */
+
+:root {
+  --g-bg: #ffffff;
+  --g-text: #0d0d0d;
+  --g-muted: #6b6b7a;
+  --g-border: #e8e8f2;
+  --g-accent: #5b4cf5;
+  --g-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* TOP NAV */
+.g-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--g-bg);
+  border-bottom: 1px solid var(--g-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 999;
+}
+
+/* BRAND */
+.g-brand {
+  font-weight: 800;
+  color: var(--g-accent);
+  font-size: 16px;
+}
+
+/* HAMBURGER */
+.g-hamburger {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--g-border);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.g-hamburger span {
+  width: 18px;
+  height: 2px;
+  background: var(--g-text);
+  display: block;
+}
+
+/* DRAWER */
+.g-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 82%;
+  height: 100%;
+  background: #fff;
+  box-shadow: var(--g-shadow);
+  transition: 0.25s ease;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.g-drawer.active {
+  left: 0;
+}
+
+/* USER SECTION */
+.g-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid var(--g-border);
+  margin-bottom: 10px;
+}
+
+.g-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--g-accent);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+.g-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* LINKS */
+.g-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.g-link {
+  padding: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--g-text);
+  border: 1px solid var(--g-border);
+}
+
+.g-link:hover {
+  background: #f6f6ff;
+  border-color: var(--g-accent);
+}
+
+/* OVERLAY */
+.g-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s;
+  z-index: 900;
+}
+
+.g-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* PUSH CONTENT DOWN */
+body {
+  padding-top: 60px;
+}
