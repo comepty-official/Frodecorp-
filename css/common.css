@@ -1,0 +1,33 @@
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --bg: #f8fafc;
+    --text: #0f172a;
+    --white: #ffffff;
+    --gray: #64748b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+
+.container { width: 100%; max-width: 450px; margin: 0 auto; padding: 20px; }
+
+.btn {
+    display: block; width: 100%; padding: 14px; border: none; border-radius: 8px;
+    font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; text-align: center;
+    text-decoration: none; margin-bottom: 10px;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-google { background: white; color: #444; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+input, textarea {
+    width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px;
+}
+
+nav { padding: 15px; background: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+.logo { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
