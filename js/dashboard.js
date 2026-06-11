@@ -1,71 +1,178 @@
 import { auth, db } from './firebase.js';
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const loadingScreen = document.getElementById('loadingScreen');
 const appContent = document.getElementById('appContent');
 
+const greeting = document.getElementById('greeting');
+const userName = document.getElementById('userName');
+const navName = document.getElementById('navName');
+const navAvatar = document.getElementById('navAvatar');
+
+const statusBadge = document.getElementById('statusBadge');
+const badgeLabel = document.getElementById('badgeLabel');
+
+const statsRow = document.getElementById('statsRow');
+const portfolioLink = document.getElementById('portfolioLink');
+const copyLink = document.getElementById('copyLink');
+
+const createCard = document.getElementById('createCard');
+const editCard = document.getElementById('editCard');
+const viewCard = document.getElementById('viewCard');
+const viewBtn = document.getElementById('viewBtn');
+const tipsSection = document.getElementById('tipsSection');
+
+const logoutBtn = document.getElementById('logoutBtn');
+
+function showApp() {
+  loadingScreen.style.display = 'none';
+  appContent.style.display = 'block';
+}
+
+function getGreeting() {
+  const hour = new Date().getHours();
+
+  if (hour < 12) return 'Good morning,';
+  if (hour < 18) return 'Good afternoon,';
+  return 'Good evening,';
+}
+
 onAuthStateChanged(auth, async (user) => {
+
   if (!user) {
     window.location.href = 'login.html';
     return;
   }
 
-  // Load user data
   try {
-    const userSnap = await getDoc(doc(db, 'users', user.uid));
-    const userData = userSnap.exists() ? userSnap.data() : {};
-    const fullName = userData.fullName || user.displayName || user.email.split('@')[0];
+
+    const userRef = doc(db, 'users', user.uid);
+    const userSnap = await getDoc(userRef);
+
+    let fullName =
+      user.displayName ||
+      user.email?.split('@')[0] ||
+      'User';
+
+    let portfolioCreated = false;
+
+    if (userSnap.exists()) {
+      const data = userSnap.data();
+
+      fullName =
+        data.fullName ||
+        fullName;
+
+      portfolioCreated =
+        data.portfolioCreated || false;
+    }
+
     const firstName = fullName.split(' ')[0];
-    const portfolioCreated = userData.portfolioCreated || false;
 
-    // Greeting
-    const hour = new Date().getHours();
-    const greet = hour < 12 ? 'Good morning,' : hour < 18 ? 'Good afternoon,' : 'Good evening,';
-    document.getElementById('greeting').textContent = greet;
-    document.getElementById('userName').textContent = fullName;
-    document.getElementById('navName').textContent = firstName;
-    document.getElementById('navAvatar').textContent = firstName.charAt(0).toUpperCase();
+    greeting.textContent = getGreeting();
+    userName.textContent = fullName;
+    navName.textContent = firstName;
+    navAvatar.textContent = firstName.charAt(0).toUpperCase();
 
-    // Portfolio slug
-    const portfolioSnap = await getDoc(doc(db, 'portfolios', user.uid));
-    const slug = portfolioSnap.exists() ? portfolioSnap.data().portfolioSlug : null;
+    if (portfolioCreated) {
 
-    if (portfolioCreated && slug) {
-      const badge = document.getElementById('statusBadge');
-      badge.classList.add('published');
-      document.getElementById('badgeLabel').textContent = 'Portfolio live ✓';
+      try {
 
-      const statsRow = document.getElementById('statsRow');
-      statsRow.style.display = 'block';
-      const linkEl = document.getElementById('portfolioLink');
-      const publicUrl = `${window.location.origin}/portfolio.html?slug=${slug}`;
-      linkEl.textContent = publicUrl;
+        const portfolioRef = doc(db, 'portfolios', user.uid);
+        const portfolioSnap = await getDoc(portfolioRef);
 
-      document.getElementById('copyLink').addEventListener('click', () => {
-        navigator.clipboard.writeText(publicUrl).then(() => {
-          document.getElementById('copyLink').textContent = '✓';
-          setTimeout(() => { document.getElementById('copyLink').textContent = '⧉'; }, 2000);
-        });
-      });
+        if (portfolioSnap.exists()) {
 
-      document.getElementById('viewBtn').href = `portfolio.html?slug=${slug}`;
-      document.getElementById('tipsSection').style.display = 'none';
-      document.getElementById('createCard').style.display = 'none';
+          const portfolioData = portfolioSnap.data();
+          const slug = portfolioData.portfolioSlug;
+
+          if (slug) {
+
+            const publicUrl =
+              `${window.location.origin}/portfolio.html?slug=${slug}`;
+
+            statusBadge.classList.add('published');
+            badgeLabel.textContent = 'Portfolio live ✓';
+
+            statsRow.style.display = 'block';
+            portfolioLink.textContent = publicUrl;
+
+            viewBtn.href =
+              `portfolio.html?slug=${slug}`;
+
+            copyLink.addEventListener('click', async () => {
+              try {
+                await navigator.clipboard.writeText(publicUrl);
+
+                copyLink.textContent = '✓';
+
+                setTimeout(() => {
+                  copyLink.textContent = '⧉';
+                }, 2000);
+
+              } catch (err) {
+                console.error(err);
+              }
+            });
+
+            tipsSection.style.display = 'none';
+            createCard.style.display = 'none';
+
+          } else {
+
+            editCard.style.display = 'none';
+            viewCard.style.display = 'none';
+          }
+
+        } else {
+
+          editCard.style.display = 'none';
+          viewCard.style.display = 'none';
+        }
+
+      } catch (err) {
+
+        console.error('Portfolio Error:', err);
+
+        editCard.style.display = 'none';
+        viewCard.style.display = 'none';
+      }
+
     } else {
-      document.getElementById('editCard').style.display = 'none';
-      document.getElementById('viewCard').style.display = 'none';
+
+      editCard.style.display = 'none';
+      viewCard.style.display = 'none';
     }
 
   } catch (err) {
-    console.error('Error loading user data:', err);
+
+    console.error('User Error:', err.code, err.message);
+
+  } finally {
+
+    showApp();
   }
 
-  loadingScreen.style.display = 'none';
-  appContent.style.display = 'block';
 });
 
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-  await signOut(auth);
-  window.location.href = 'index.html';
+logoutBtn.addEventListener('click', async () => {
+
+  try {
+
+    await signOut(auth);
+    window.location.href = 'index.html';
+
+  } catch (err) {
+
+    console.error(err);
+  }
+
 });
