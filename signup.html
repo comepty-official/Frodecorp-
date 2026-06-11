@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — Frodecorp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/signup.css" />
+</head>
+<body>
+  <div class="auth-layout">
+    <div class="auth-brand">
+      <a href="index.html" class="brand-logo">Frodecorp</a>
+      <div class="brand-visual">
+        <div class="bv-card">
+          <div class="bv-avatar"></div>
+          <div class="bv-lines">
+            <div class="bv-line w80"></div>
+            <div class="bv-line w50"></div>
+          </div>
+        </div>
+        <p class="brand-pitch">"My portfolio link got me three interviews in one week."</p>
+        <span class="brand-user">— Tayo, Frontend Dev</span>
+      </div>
+    </div>
+
+    <div class="auth-panel">
+      <div class="auth-box">
+        <a href="index.html" class="back-link">← Back</a>
+        <h1>Create your account</h1>
+        <p class="auth-sub">Start building your portfolio — free, always.</p>
+
+        <button class="btn-google" id="googleSignup">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+          Continue with Google
+        </button>
+
+        <div class="divider"><span>or sign up with email</span></div>
+
+        <div id="errorMsg" class="error-msg" style="display:none;"></div>
+
+        <form id="signupForm" novalidate>
+          <div class="form-group">
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" placeholder="Amara Osei" required autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="amara@example.com" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" placeholder="At least 8 characters" required autocomplete="new-password" />
+              <button type="button" class="eye-btn" id="togglePwd" aria-label="Toggle password">👁</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span id="submitLabel">Create account</span>
+            <span id="submitSpinner" class="spinner" style="display:none;"></span>
+          </button>
+        </form>
+
+        <p class="auth-footer">Already have an account? <a href="login.html">Log in</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/signup.js"></script>
+</body>
+</html>

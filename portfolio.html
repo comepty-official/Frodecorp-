@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Frodecorp</title>
+  <meta name="description" content="Portfolio built with Frodecorp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/portfolio.css" />
+</head>
+<body>
+
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-logo">Frodecorp</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <div id="notFound" class="not-found" style="display:none;">
+    <div class="nf-icon">🔍</div>
+    <h1>Portfolio not found</h1>
+    <p>This portfolio doesn't exist or may have been removed.</p>
+    <a href="index.html" class="btn-home">← Back to Frodecorp</a>
+  </div>
+
+  <div id="portfolioContent" style="display:none;">
+    <!-- Hero header -->
+    <header class="port-header" id="portHeader">
+      <div class="port-avatar-wrap">
+        <div class="port-avatar" id="portAvatar">
+          <span id="portAvatarInitials"></span>
+          <img id="portAvatarImg" src="" alt="" style="display:none;" />
+        </div>
+      </div>
+      <h1 class="port-name" id="portName"></h1>
+      <p class="port-title" id="portTitle"></p>
+      <div class="port-social" id="portSocial"></div>
+    </header>
+
+    <!-- Main content -->
+    <main class="port-main">
+
+      <section class="port-section" id="aboutSection" style="display:none;">
+        <div class="port-section-label" id="aboutLabel">About</div>
+        <p class="port-about" id="portAbout"></p>
+      </section>
+
+      <section class="port-section" id="skillsSection" style="display:none;">
+        <div class="port-section-label" id="skillsLabel">Skills</div>
+        <div class="port-skills" id="portSkills"></div>
+      </section>
+
+      <section class="port-section" id="projectsSection" style="display:none;">
+        <div class="port-section-label" id="projectsLabel">Projects</div>
+        <div class="port-projects" id="portProjects"></div>
+      </section>
+
+      <section class="port-section" id="contactSection" style="display:none;">
+        <div class="port-section-label" id="contactLabel">Contact</div>
+        <div class="port-contact" id="portContact"></div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="port-footer">
+      <a href="index.html" class="port-footer-brand">Built with <strong>Frodecorp</strong></a>
+    </footer>
+  </div>
+
+  <script type="module" src="js/portfolio.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Frodecorp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-logo">Frodecorp</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <div id="appContent" style="display:none;">
+    <nav class="dash-nav">
+      <a href="dashboard.html" class="nav-logo">Frodecorp</a>
+      <div class="nav-right">
+        <div class="user-pill">
+          <div class="user-avatar" id="navAvatar"></div>
+          <span id="navName">…</span>
+        </div>
+        <button class="btn-logout" id="logoutBtn">Log out</button>
+      </div>
+    </nav>
+
+    <main class="dash-main">
+      <div class="dash-header">
+        <div>
+          <p class="dash-greet" id="greeting">Good morning,</p>
+          <h1 class="dash-name" id="userName">Loading…</h1>
+        </div>
+        <div class="dash-badge" id="statusBadge">
+          <span class="badge-dot"></span>
+          <span id="badgeLabel">No portfolio yet</span>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row" id="statsRow" style="display:none;">
+        <div class="stat-card">
+          <div class="stat-icon">🌐</div>
+          <div class="stat-info">
+            <div class="stat-label">Your public link</div>
+            <div class="stat-value" id="portfolioLink">–</div>
+          </div>
+          <button class="copy-btn" id="copyLink" title="Copy link">⧉</button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-grid">
+        <div class="action-card action-primary" id="createCard">
+          <div class="action-icon">✦</div>
+          <div class="action-content">
+            <h3>Create portfolio</h3>
+            <p>Build your online presence in minutes</p>
+          </div>
+          <a href="editor.html" class="action-btn">Start building →</a>
+        </div>
+
+        <div class="action-card" id="editCard">
+          <div class="action-icon">✏️</div>
+          <div class="action-content">
+            <h3>Edit portfolio</h3>
+            <p>Update your details, projects, and links</p>
+          </div>
+          <a href="editor.html" class="action-btn action-btn-outline">Open editor →</a>
+        </div>
+
+        <div class="action-card" id="viewCard">
+          <div class="action-icon">👁</div>
+          <div class="action-content">
+            <h3>View portfolio</h3>
+            <p>See your portfolio as visitors see it</p>
+          </div>
+          <a href="#" class="action-btn action-btn-outline" id="viewBtn">View live →</a>
+        </div>
+      </div>
+
+      <!-- Quick tips (shown until portfolio created) -->
+      <div class="tips-section" id="tipsSection">
+        <h2 class="tips-title">Get started in 3 steps</h2>
+        <div class="tips-list">
+          <div class="tip">
+            <div class="tip-num">1</div>
+            <div class="tip-text">
+              <strong>Click "Create portfolio"</strong>
+              <span>Open the portfolio builder above</span>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-num">2</div>
+            <div class="tip-text">
+              <strong>Fill in your details</strong>
+              <span>Add your bio, skills, and projects</span>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-num">3</div>
+            <div class="tip-text">
+              <strong>Save and share</strong>
+              <span>Your public portfolio link goes live instantly</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
