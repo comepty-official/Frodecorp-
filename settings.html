@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Settings — Frodecorp</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+
+<body>
+
+  <!-- LOADING -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-logo">Frodecorp</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- APP -->
+  <div id="settingsApp" style="display:none;">
+
+    <!-- NAV -->
+    <nav class="settings-nav">
+      <a href="dashboard.html" class="nav-logo">Frodecorp</a>
+
+      <div class="nav-actions">
+        <button id="previewBtn" class="btn btn-outline">Preview</button>
+        <button id="publishBtn" class="btn">Publish Website</button>
+      </div>
+    </nav>
+
+    <main class="settings-main">
+
+      <!-- HEADER -->
+      <div class="page-header">
+        <h1>Website Settings</h1>
+        <p>Customize your portfolio and see live changes instantly.</p>
+      </div>
+
+      <!-- LIVE PREVIEW -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>Live Preview</h2>
+        </div>
+
+        <div class="profile-preview">
+
+          <div class="profile-avatar">
+            <img id="previewAvatarImg" style="display:none;">
+            <span id="previewAvatarText">U</span>
+          </div>
+
+          <div class="profile-meta">
+            <div class="profile-name" id="previewName">Your Name</div>
+            <div class="profile-hint" id="previewTitle">Frontend Developer</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- WEBSITE INFO -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>Website Information</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Website Name</label>
+          <input type="text" id="websiteName" placeholder="Wisdom Portfolio">
+        </div>
+
+        <div class="form-group">
+          <label>Website URL</label>
+          <input type="text" id="websiteSlug" placeholder="wisdom">
+          <small>frodecorp.web.app/u/wisdom</small>
+        </div>
+
+        <div class="form-group">
+          <label>Profile Photo</label>
+          <input type="file" id="profilePhoto" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label>Cover Image</label>
+          <input type="file" id="coverImage" accept="image/*">
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>About Section</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="fullName" placeholder="Wisdom">
+        </div>
+
+        <div class="form-group">
+          <label>Professional Title</label>
+          <input type="text" id="jobTitle" placeholder="Frontend Developer">
+        </div>
+
+        <div class="form-group">
+          <label>About You</label>
+          <textarea id="aboutText" rows="6" placeholder="Tell people about yourself..."></textarea>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>Skills</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Skills</label>
+          <input type="text" id="skillsInput" placeholder="HTML, CSS, JavaScript, Firebase">
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>Projects</h2>
+        </div>
+
+        <div id="projectsContainer">
+          <div class="project-item">
+            <input type="text" class="project-name" placeholder="Project Name">
+            <textarea class="project-description" rows="4" placeholder="Project Description"></textarea>
+            <input type="url" class="project-link" placeholder="Project Link">
+          </div>
+        </div>
+
+        <button id="addProject" class="btn btn-outline full-btn">
+          + Add Project
+        </button>
+      </section>
+
+      <!-- SOCIAL -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>Social Links</h2>
+        </div>
+
+        <div class="form-group">
+          <label>GitHub</label>
+          <input type="url" id="github">
+        </div>
+
+        <div class="form-group">
+          <label>LinkedIn</label>
+          <input type="url" id="linkedin">
+        </div>
+
+        <div class="form-group">
+          <label>X (Twitter)</label>
+          <input type="url" id="twitter">
+        </div>
+
+        <div class="form-group">
+          <label>Instagram</label>
+          <input type="url" id="instagram">
+        </div>
+      </section>
+
+      <!-- DESIGN -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>Design Settings</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Theme Color</label>
+          <input type="color" id="themeColor" value="#5b4cf5">
+        </div>
+
+        <div class="form-group">
+          <label>Layout Style</label>
+          <select id="layoutStyle">
+            <option value="modern">Modern</option>
+            <option value="minimal">Minimal</option>
+            <option value="creative">Creative</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Font Style</label>
+          <select id="fontStyle">
+            <option value="inter">Inter</option>
+            <option value="syne">Syne</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="settings-card">
+        <div class="card-header">
+          <h2>Contact Information</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="contactEmail">
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" id="contactPhone">
+        </div>
+      </section>
+
+      <!-- SAVE -->
+      <section class="save-section">
+        <button id="saveBtn" class="btn full-btn">Save Changes</button>
+      </section>
+
+    </main>
+  </div>
+
+  <script type="module" src="js/settings.js"></script>
+
+  <!-- LIVE PREVIEW SCRIPT -->
+  <script>
+    const profileInput = document.getElementById('profilePhoto');
+
+    const previewImg = document.getElementById('previewAvatarImg');
+    const previewText = document.getElementById('previewAvatarText');
+
+    const nameInput = document.getElementById('fullName');
+    const jobInput = document.getElementById('jobTitle');
+
+    const previewName = document.getElementById('previewName');
+    const previewTitle = document.getElementById('previewTitle');
+
+    function updatePreview() {
+      const name = nameInput.value.trim();
+      const title = jobInput.value.trim();
+
+      previewName.textContent = name || "Your Name";
+      previewTitle.textContent = title || "Frontend Developer";
+
+      previewText.textContent = (name || "Y")[0].toUpperCase();
+    }
+
+    nameInput.addEventListener('input', updatePreview);
+    jobInput.addEventListener('input', updatePreview);
+
+    profileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+
+      previewImg.src = url;
+      previewImg.style.display = "block";
+      previewText.style.display = "none";
+    });
+
+    updatePreview();
+  </script>
+
+</body>
+</html>
