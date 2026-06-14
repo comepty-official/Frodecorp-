@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Frodecorp Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+<link rel="stylesheet" href="css/edit.css"/>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <span class="brand"><i class="bi bi-grid-3x3-gap-fill"></i> Frodecorp</span>
+
+  <!-- Sidebar toggles -->
+  <div class="topbar-section">
+    <button class="tb-btn" id="toggleLeft" title="Toggle Toolbox"><i class="bi bi-layout-sidebar"></i></button>
+    <button class="tb-btn" id="toggleRight" title="Toggle Properties"><i class="bi bi-layout-sidebar-reverse"></i></button>
+  </div>
+
+  <!-- Undo / Redo -->
+  <div class="topbar-section" id="undoRedo">
+    <button class="tb-btn" id="undoBtn" title="Undo (Ctrl+Z)"><i class="bi bi-arrow-counterclockwise"></i></button>
+    <button class="tb-btn" id="redoBtn" title="Redo (Ctrl+Y)"><i class="bi bi-arrow-clockwise"></i></button>
+  </div>
+
+  <!-- Device preview -->
+  <div class="topbar-section" id="deviceBtns">
+    <button class="tb-btn active" data-device="desktop" title="Desktop"><i class="bi bi-display"></i></button>
+    <button class="tb-btn" data-device="tablet"  title="Tablet"><i class="bi bi-tablet"></i></button>
+    <button class="tb-btn" data-device="mobile"  title="Mobile"><i class="bi bi-phone"></i></button>
+  </div>
+
+  <!-- Grid / Snap -->
+  <div class="topbar-section">
+    <button class="tb-btn" id="gridBtn" title="Toggle Grid"><i class="bi bi-grid"></i></button>
+    <button class="tb-btn" id="snapBtn" title="Toggle Snap"><i class="bi bi-magnet"></i></button>
+  </div>
+
+  <span class="tb-spacer"></span>
+
+  <!-- Main actions -->
+  <div class="topbar-section">
+    <button class="tb-btn" id="clearBtn"><i class="bi bi-trash"></i> <span>Clear</span></button>
+    <button class="tb-btn" id="previewBtn"><i class="bi bi-eye"></i> <span>Preview</span></button>
+    <button class="tb-btn" id="codeBtn"><i class="bi bi-code-slash"></i> <span>Code</span></button>
+    <button class="tb-btn" id="exportBtn"><i class="bi bi-download"></i> <span>Export</span></button>
+    <button class="tb-btn accent" id="saveBtn"><i class="bi bi-save"></i> <span>Save</span></button>
+    <button class="tb-btn accent" id="publishBtn"><i class="bi bi-cloud-upload"></i> <span>Publish</span></button>
+  </div>
+
+  <!-- Theme + Home -->
+  <div class="topbar-section">
+    <button class="tb-btn" id="themeBtn" title="Toggle Theme"><i class="bi bi-sun"></i></button>
+    <a href="dashboard.html" class="tb-btn" title="Dashboard"><i class="bi bi-house"></i></a>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div id="main">
+
+  <!-- LEFT PANEL -->
+  <div id="leftPanel">
+    <div id="panelTabs">
+      <div class="panel-tab active" data-tab="elements"><i class="bi bi-grid-3x3"></i> Elements</div>
+      <div class="panel-tab" data-tab="layers"><i class="bi bi-stack"></i> Layers</div>
+      <div class="panel-tab" data-tab="templates"><i class="bi bi-collection"></i> Templates</div>
+    </div>
+    <div id="panelContent">
+
+      <!-- ELEMENTS TAB -->
+      <div id="tab-elements">
+        <input type="text" id="searchBox" placeholder="Search elements…"/>
+        <div id="elemList"></div>
+      </div>
+
+      <!-- LAYERS TAB -->
+      <div id="tab-layers" style="display:none">
+        <div style="padding:8px;display:flex;gap:4px">
+          <button class="tb-btn" style="flex:1;justify-content:center" onclick="selectAllElements()">
+            <i class="bi bi-check2-all"></i>
+          </button>
+          <button class="tb-btn" style="flex:1;justify-content:center" onclick="deleteSelectedElement()">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+        <div id="layersList"></div>
+      </div>
+
+      <!-- TEMPLATES TAB -->
+      <div id="tab-templates" style="display:none">
+        <div class="template-grid" id="templateGrid"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CANVAS AREA -->
+  <div id="canvasArea">
+    <div id="canvasWrap">
+      <div id="canvas">
+        <div id="gridOverlay"></div>
+        <div class="empty-hint" id="emptyHint">
+          <i class="bi bi-plus-circle-dotted"></i>
+          <p>Drag elements here to build</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL — PROPERTIES -->
+  <div id="rightPanel">
+    <div id="propHeader">
+      <i class="bi bi-sliders" style="color:var(--accent)"></i> Properties
+    </div>
+    <div id="noSel">
+      <i class="bi bi-cursor"></i>
+      <span>Select an element</span>
+    </div>
+
+    <div id="propsInner">
+
+      <!-- Content -->
+      <div class="prop-section">
+        <div class="prop-section-title">Content</div>
+        <div class="prop-row">
+          <label class="prop-label">Text</label>
+          <input type="text" class="prop-input" id="pText" placeholder="Enter text…"/>
+        </div>
+        <div class="prop-row" id="pLinkRow">
+          <label class="prop-label">Link URL</label>
+          <input type="text" class="prop-input" id="pLink" placeholder="https://…"/>
+        </div>
+        <div class="prop-row" id="pSrcRow">
+          <label class="prop-label">Src / URL</label>
+          <input type="text" class="prop-input" id="pSrc" placeholder="URL or upload…"/>
+        </div>
+        <div id="pUploadRow">
+          <input type="file" id="pFile" accept="image/*,video/*" style="display:none"/>
+          <button class="prop-btn" onclick="document.getElementById('pFile').click()">
+            <i class="bi bi-upload"></i> Upload File
+          </button>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="prop-section">
+        <div class="prop-section-title">Typography</div>
+        <div class="prop-row">
+          <label class="prop-label">Family</label>
+          <select class="prop-input" id="pFontFamily">
+            <option>Inter</option>
+            <option>Georgia</option>
+            <option>Times New Roman</option>
+            <option>Courier New</option>
+            <option>Arial</option>
+            <option>Verdana</option>
+            <option>Trebuchet MS</option>
+            <option>Impact</option>
+          </select>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Size</label>
+          <input type="number" class="prop-input" id="pFontSize" min="6" max="200" value="16"/>
+          <span style="color:var(--text3);font-size:11px">px</span>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Weight</label>
+          <select class="prop-input" id="pFontWeight">
+            <option value="300">Light</option>
+            <option value="400">Regular</option>
+            <option value="500">Medium</option>
+            <option value="600">SemiBold</option>
+            <option value="700">Bold</option>
+          </select>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Align</label>
+          <div style="display:flex;gap:3px;flex:1">
+            <button class="prop-btn" onclick="setAlign('left')"   style="flex:1;padding:4px"><i class="bi bi-text-left"></i></button>
+            <button class="prop-btn" onclick="setAlign('center')" style="flex:1;padding:4px"><i class="bi bi-text-center"></i></button>
+            <button class="prop-btn" onclick="setAlign('right')"  style="flex:1;padding:4px"><i class="bi bi-text-right"></i></button>
+          </div>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Color</label>
+          <input type="color" class="prop-input" id="pColor" value="#000000"/>
+        </div>
+      </div>
+
+      <!-- Background -->
+      <div class="prop-section">
+        <div class="prop-section-title">Background</div>
+        <div class="prop-row">
+          <label class="prop-label">Color</label>
+          <input type="color" class="prop-input" id="pBg" value="#ffffff"/>
+          <button class="prop-btn" onclick="clearBg()" style="padding:4px 8px;width:auto">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Image URL</label>
+          <input type="text" class="prop-input" id="pBgImg" placeholder="https://…"/>
+        </div>
+      </div>
+
+      <!-- Layout -->
+      <div class="prop-section">
+        <div class="prop-section-title">Layout</div>
+        <div class="prop-2col">
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Width</div>
+            <input type="number" class="prop-input" id="pW" min="20" max="2000"/>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Height</div>
+            <input type="number" class="prop-input" id="pH" min="20" max="2000"/>
+          </div>
+        </div>
+        <div class="prop-2col">
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">X</div>
+            <input type="number" class="prop-input" id="pX"/>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Y</div>
+            <input type="number" class="prop-input" id="pY"/>
+          </div>
+        </div>
+        <div class="prop-2col">
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Padding</div>
+            <input type="number" class="prop-input" id="pPad" min="0" max="200"/>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Margin</div>
+            <input type="number" class="prop-input" id="pMargin" min="0" max="200"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Border & Shadow -->
+      <div class="prop-section">
+        <div class="prop-section-title">Border &amp; Shadow</div>
+        <div class="prop-2col">
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Width</div>
+            <input type="number" class="prop-input" id="pBordW" min="0" max="20"/>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Radius</div>
+            <input type="number" class="prop-input" id="pBordR" min="0" max="200"/>
+          </div>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Color</label>
+          <input type="color" class="prop-input" id="pBordC" value="#000000"/>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Shadow</label>
+          <select class="prop-input" id="pShadow">
+            <option value="">None</option>
+            <option value="0 2px 8px rgba(0,0,0,.1)">Soft</option>
+            <option value="0 4px 16px rgba(0,0,0,.15)">Medium</option>
+            <option value="0 8px 32px rgba(0,0,0,.25)">Strong</option>
+            <option value="0 0 0 3px rgba(108,99,255,.3)">Glow</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Animation -->
+      <div class="prop-section">
+        <div class="prop-section-title">Animation</div>
+        <div class="prop-row">
+          <label class="prop-label">Type</label>
+          <select class="prop-input" id="pAnim">
+            <option value="">None</option>
+            <option value="fade-in">Fade In</option>
+            <option value="slide-in">Slide In</option>
+            <option value="slide-up">Slide Up</option>
+            <option value="bounce">Bounce</option>
+            <option value="zoom">Zoom In</option>
+            <option value="shake">Shake</option>
+            <option value="rotate">Rotate</option>
+            <option value="pulse">Pulse</option>
+          </select>
+        </div>
+        <div class="prop-2col">
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Duration (ms)</div>
+            <input type="number" class="prop-input" id="pAnimDur" value="1000" min="100" max="10000"/>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:2px">Delay (ms)</div>
+            <input type="number" class="prop-input" id="pAnimDel" value="0" min="0" max="5000"/>
+          </div>
+        </div>
+        <div class="prop-row">
+          <label class="prop-label">Repeat</label>
+          <select class="prop-input" id="pAnimIter">
+            <option value="1">Once</option>
+            <option value="infinite">Loop</option>
+            <option value="3">3×</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Element Actions -->
+      <div class="prop-section">
+        <div class="prop-section-title">Element Actions</div>
+        <div class="prop-2col">
+          <button class="prop-btn" onclick="duplicateSelected()"><i class="bi bi-copy"></i> Duplicate</button>
+          <button class="prop-btn" onclick="toggleLockSelected()"><i class="bi bi-lock"></i> Lock</button>
+        </div>
+        <div class="prop-2col">
+          <button class="prop-btn" onclick="toggleVisibility()"><i class="bi bi-eye"></i> Hide/Show</button>
+          <button class="prop-btn" onclick="bringForward()"><i class="bi bi-front"></i> Forward</button>
+        </div>
+        <div class="prop-2col">
+          <button class="prop-btn" onclick="sendBackward()"><i class="bi bi-back"></i> Backward</button>
+          <button class="prop-btn" onclick="bringToFront()"><i class="bi bi-layers"></i> To Front</button>
+        </div>
+        <button class="prop-btn danger" onclick="deleteSelectedElement()">
+          <i class="bi bi-trash"></i> Delete Element
+        </button>
+      </div>
+
+    </div><!-- /propsInner -->
+  </div><!-- /rightPanel -->
+
+</div><!-- /main -->
+
+<!-- CONTEXT MENU -->
+<div id="ctxMenu">
+  <div class="ctx-item" onclick="ctxAction('edit')"><i class="bi bi-pencil"></i> Edit Text</div>
+  <div class="ctx-item" onclick="ctxAction('duplicate')"><i class="bi bi-copy"></i> Duplicate</div>
+  <div class="ctx-item" onclick="ctxAction('lock')"><i class="bi bi-lock"></i> Lock / Unlock</div>
+  <div class="ctx-item" onclick="ctxAction('front')"><i class="bi bi-front"></i> Bring to Front</div>
+  <div class="ctx-item" onclick="ctxAction('back')"><i class="bi bi-back"></i> Send to Back</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item danger" onclick="ctxAction('delete')"><i class="bi bi-trash"></i> Delete</div>
+</div>
+
+<!-- CODE MODAL -->
+<div id="codeModal">
+  <div id="codeBox">
+    <div class="modal-head">
+      <span><i class="bi bi-code-slash" style="color:var(--accent)"></i> Generated Code</span>
+      <button class="tb-btn" onclick="closeCodeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div id="codeTabs">
+      <div class="code-tab active" data-code="html">HTML</div>
+      <div class="code-tab" data-code="css">CSS</div>
+      <div class="code-tab" data-code="full">Full Page</div>
+    </div>
+    <div id="codeContent"><pre id="codeOutput"></pre></div>
+    <div id="codeFooter">
+      <button class="tb-btn" onclick="copyCode()"><i class="bi bi-copy"></i> Copy</button>
+      <button class="tb-bt --> -->onclick="downloadCode()"><i class="bi bi-download"></i> Download</button>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div id="previewModal">
+  <div id="previewBar">
+    <button class="tb-btn" onclick="closePreview()"><i class="bi bi-x-lg"></i> Close</button>
+    <span style="font-size:12px;color:var(--text2)">Preview Mode</span>
+  </div>
+  <iframe id="previewFrame"></iframe>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- JS -->
+<script type="module" src="Js/edit.js"></script>
+
+</body>
+</html>

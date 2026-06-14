@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Frodecorp — Live Site</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0f0f13;color:#e8e8f0;min-height:100vh;display:flex;flex-direction:column}
+
+/* VIEWER BAR */
+#viewerBar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(26,26,34,.95);backdrop-filter:blur(10px);
+  border-bottom:1px solid #333345;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:12px;
+  flex-shrink:0;
+}
+#viewerBar .brand{font-weight:700;font-size:14px;color:#6c63ff;white-space:nowrap}
+#viewerBar .site-title{font-size:13px;color:#9999bb;flex:1}
+.vbar-btn{
+  display:flex;align-items:center;gap:6px;padding:7px 14px;
+  border-radius:8px;border:1px solid #333345;background:#22222e;
+  color:#e8e8f0;cursor:pointer;font-size:12px;font-family:inherit;
+  text-decoration:none;transition:all .15s;white-space:nowrap;
+}
+.vbar-btn:hover{background:#2a2a38;border-color:#6c63ff}
+.vbar-btn.accent{background:#6c63ff;border-color:#6c63ff;color:#fff}
+
+/* LOADING */
+#loadingState{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+}
+.spinner{
+  width:40px;height:40px;border:3px solid #333345;border-top-color:#6c63ff;
+  border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR */
+#errorState{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:40px}
+#errorState i{font-size:48px;color:#ef4444}
+#errorState h2{font-size:20px;font-weight:600}
+#errorState p{color:#9999bb;font-size:14px;max-width:360px}
+
+/* SITE FRAME */
+#siteFrame{
+  flex:1;width:100%;border:none;background:#fff;
+  min-height:calc(100vh - 56px);
+}
+
+/* SHARE TOAST */
+#shareToast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#1a1a22;border:1px solid #333345;color:#e8e8f0;
+  padding:10px 20px;border-radius:20px;font-size:13px;z-index:9999;
+  opacity:0;transition:opacity .2s;pointer-events:none;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);white-space:nowrap;
+}
+#shareToast.show{opacity:1}
+
+/* SHARE MODAL */
+#shareModal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:8000;align-items:center;justify-content:center;padding:20px;
+}
+#shareModal.open{display:flex}
+#shareBox{
+  background:#1a1a22;border:1px solid #333345;border-radius:16px;
+  padding:24px;max-width:460px;width:100%;
+}
+#shareBox h3{font-size:16px;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+#shareBox p{color:#9999bb;font-size:13px;margin:0 0 16px}
+.share-url-row{display:flex;gap:8px}
+.share-url-row input{
+  flex:1;padding:10px 12px;border:1px solid #333345;border-radius:8px;
+  background:#22222e;color:#e8e8f0;font-size:13px;font-family:inherit;
+}
+.share-url-row button{
+  padding:10px 16px;background:#6c63ff;color:#fff;border:none;
+  border-radius:8px;cursor:pointer;font-size:13px;white-space:nowrap;
+}
+.share-actions{display:flex;gap:8px;margin-top:12px}
+.share-actions a,.share-actions button{
+  flex:1;padding:10px;text-align:center;border-radius:8px;font-size:13px;
+  cursor:pointer;text-decoration:none;border:1px solid #333345;
+  background:#22222e;color:#e8e8f0;font-family:inherit;
+}
+.share-actions a:hover,.share-actions button:hover{background:#2a2a38}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+</head>
+<body>
+
+<!-- VIEWER BAR -->
+<div id="viewerBar">
+  <span class="brand"><i class="bi bi-grid-3x3-gap-fill"></i> Frodecorp</span>
+  <span class="site-title" id="siteTitle">Loading…</span>
+  <button class="vbar-btn" onclick="openShareModal()"><i class="bi bi-share"></i> Share</button>
+  <a class="vbar-btn accent" href="edit.html" id="editBtn" style="display:none"><i class="bi bi-pencil"></i> Edit</a>
+  <a class="vbar-btn" href="dashboard.html"><i class="bi bi-house"></i></a>
+</div>
+
+<!-- LOADING -->
+<div id="loadingState">
+  <div class="spinner"></div>
+  <p style="color:#9999bb;font-size:14px">Loading your site…</p>
+</div>
+
+<!-- ERROR -->
+<div id="errorState">
+  <i class="bi bi-exclamation-triangle"></i>
+  <h2>Site not found</h2>
+  <p>This site doesn't exist or has been removed. Check the link and try again.</p>
+  <a class="vbar-btn" href="dashboard.html" style="margin-top:8px">Go to Dashboard</a>
+</div>
+
+<!-- RENDERED SITE (iframe of stored HTML) -->
+<iframe id="siteFrame" style="display:none"></iframe>
+
+<!-- SHARE MODAL -->
+<div id="shareModal">
+  <div id="shareBox">
+    <h3><i class="bi bi-link-45deg" style="color:#6c63ff"></i> Share your site</h3>
+    <p>Anyone with this link can view your published site.</p>
+    <div class="share-url-row">
+      <input type="text" id="shareUrlInput" readonly/>
+      <button onclick="copyShareUrl()"><i class="bi bi-copy"></i> Copy</button>
+    </div>
+    <div class="share-actions">
+      <a id="shareOpenLink" href="#" target="_blank"><i class="bi bi-box-arrow-up-right"></i> Open</a>
+      <button onclick="closeShareModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="shareToast"></div>
+
+<script type="module">
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const params    = new URLSearchParams(location.search);
+const siteId    = params.get("id");
+const loadEl    = document.getElementById("loadingState");
+const errorEl   = document.getElementById("errorState");
+const frameEl   = document.getElementById("siteFrame");
+const titleEl   = document.getElementById("siteTitle");
+const editBtn   = document.getElementById("editBtn");
+const shareInput = document.getElementById("shareUrlInput");
+const shareOpen  = document.getElementById("shareOpenLink");
+
+const currentUrl = location.href;
+if (shareInput) shareInput.value = currentUrl;
+if (shareOpen)  shareOpen.href   = currentUrl;
+
+if (!siteId) {
+  showError();
+} else {
+  loadSite(siteId);
+}
+
+// Check if current user owns this site (to show Edit button)
+onAuthStateChanged(auth, user => {
+  if (!user) return;
+  // slug is first 8 chars of uid
+  if (user.uid.startsWith(siteId) || siteId === user.uid.substr(0,8)) {
+    editBtn.style.display = "flex";
+  }
+});
+
+async function loadSite(id) {
+  try {
+    const snap = await getDoc(doc(db, "published_sites", id));
+    if (!snap.exists()) { showError(); return; }
+
+    const data = snap.data();
+
+    // Update page title
+    const name = data.title || "My Site";
+    titleEl.textContent = name;
+    document.title = name + " — Frodecorp";
+
+    // Render HTML in iframe
+    frameEl.srcdoc = data.html || "<p>Empty site</p>";
+    frameEl.style.display = "block";
+    loadEl.style.display  = "none";
+
+  } catch (err) {
+    console.error(err);
+    showError();
+  }
+}
+
+function showError() {
+  loadEl.style.display  = "none";
+  errorEl.style.display = "flex";
+}
+
+// =========================================================
+// SHARE
+// =========================================================
+window.openShareModal  = function() { document.getElementById("shareModal").classList.add("open"); };
+window.closeShareModal = function() { document.getElementById("shareModal").classList.remove("open"); };
+window.copyShareUrl    = function() {
+  navigator.clipboard.writeText(currentUrl).then(() => showToast("Link copied!"));
+};
+
+function showToast(msg) {
+  const t = document.getElementById("shareToast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+// Close share modal on backdrop click
+document.getElementById("shareModal").addEventListener("click", e => {
+  if (e.target === document.getElementById("shareModal")) closeShareModal();
+});
+</script>
+</body>
+</html>
