@@ -1,4 +1,4 @@
-import { auth, db, storage } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
@@ -9,11 +9,12 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+
+
+
+
+
 
 const loadingScreen = document.getElementById("loadingScreen");
 const appContent = document.getElementById("appContent");
@@ -79,41 +80,51 @@ onAuthStateChanged(auth, async (user) => {
   currentUser = user;
 
   try {
+  console.log("User UID:", user.uid);
     const snap = await getDoc(
       doc(db, "portfolios", user.uid)
     );
+     
+    if (!snap.exists()) {
 
-    if (snap.exists()) {
-      const data = snap.data();
+  fullName.value = user.displayName || "";
+  contactEmail.value = user.email || "";
 
-      fullName.value = data.fullName || "";
-      title.value = data.title || "";
-      about.value = data.about || "";
-      slug.value = data.portfolioSlug || "";
+  updatePreview();
+  updateInitials();
 
-      github.value = data.github || "";
-      linkedin.value = data.linkedin || "";
-      twitter.value = data.twitter || "";
-      website.value = data.website || "";
+} else {
 
-      contactEmail.value = data.contactEmail || "";
-      locationInput.value = data.location || "";
+  const data = snap.data();
 
-      skills = data.skills || [];
-      projects = data.projects || [];
+  fullName.value = data.fullName || "";
+  title.value = data.title || "";
+  about.value = data.about || "";
+  slug.value = data.portfolioSlug || "";
 
-      avatarUrl = data.profileImage || "";
+  github.value = data.github || "";
+  linkedin.value = data.linkedin || "";
+  twitter.value = data.twitter || "";
+  website.value = data.website || "";
 
-      selectedTheme = data.theme || "violet";
+  contactEmail.value = data.contactEmail || "";
+  locationInput.value = data.location || "";
 
-      if (avatarUrl) {
-        setAvatar(avatarUrl);
-      }
+  skills = data.skills || [];
+  projects = data.projects || [];
 
-      document
-        .querySelector(`[data-theme="${selectedTheme}"]`)
-        ?.classList.add("active");
-    }
+  avatarUrl = data.profileImage || "";
+
+  selectedTheme = data.theme || "violet";
+
+  if (avatarUrl) {
+    setAvatar(avatarUrl);
+  }
+
+  document
+    .querySelector(`[data-theme="${selectedTheme}"]`)
+    ?.classList.add("active");
+}
 
     updatePreview();
     updateInitials();
@@ -122,8 +133,9 @@ onAuthStateChanged(auth, async (user) => {
     setTheme(selectedTheme);
 
   } catch (error) {
-    console.error(error);
-  }
+  console.error("ERROR:", error);
+  alert(error.message);
+}
 
   loadingScreen.style.display = "none";
   appContent.style.display = "block";
@@ -409,61 +421,63 @@ async function savePortfolio() {
 
   try {
 
-    let profileImage = avatarUrl;
-
-    if (avatarFile) {
-
-      const storageRef = ref(
-        storage,
-        `avatars/${currentUser.uid}/${Date.now()}`
-      );
-
-      await uploadBytes(
-        storageRef,
-        avatarFile
-      );
-
-      profileImage =
-        await getDownloadURL(storageRef);
-    }
-
     await setDoc(
-      doc(db, "portfolios", currentUser.uid),
-      {
-        fullName: fullName.value.trim(),
-        title: title.value.trim(),
-        about: about.value.trim(),
-        portfolioSlug: slug.value.trim(),
+  doc(db, "users", currentUser.uid),
+  {
+    uid: currentUser.uid,
+    fullName: fullName.value.trim(),
+    profileImage: avatarUrl,
+    title: title.value.trim(),
+    updatedAt: serverTimestamp()
+  },
+  { merge: true }
+);
 
-        github: github.value.trim(),
-        linkedin: linkedin.value.trim(),
-        twitter: twitter.value.trim(),
-        website: website.value.trim(),
+await setDoc(
+  doc(db, "portfolios", currentUser.uid),
+  {
+    fullName: fullName.value.trim(),
+    title: title.value.trim(),
+    about: about.value.trim(),
+    portfolioSlug: slug.value.trim(),
 
-        contactEmail:
-          contactEmail.value.trim(),
+    github: github.value.trim(),
+    linkedin: linkedin.value.trim(),
+    twitter: twitter.value.trim(),
+    website: website.value.trim(),
 
-        location:
-          locationInput.value.trim(),
+    contactEmail: contactEmail.value.trim(),
+    location: locationInput.value.trim(),
 
-        profileImage,
-        skills,
-        projects,
-        theme: selectedTheme,
+    profileImage: avatarUrl,
 
-        updatedAt:
-          serverTimestamp()
-      },
-      {
-        merge: true
-      }
-    );
+    skills,
+    projects,
+    theme: selectedTheme,
 
-    avatarUrl = profileImage;
+    updatedAt: serverTimestamp()
+  },
+  { merge: true }
+);
 
-    showToast(
-      "Portfolio saved successfully"
-    );
+
+
+await setDoc(
+  doc(db, "users", currentUser.uid),
+  {
+    fullName: fullName.value.trim(),
+    email: contactEmail.value.trim(),
+    profileImage: avatarUrl,
+    updatedAt: serverTimestamp()
+  },
+  {
+    merge: true
+  }
+);
+
+
+
+    showToast("Portfolio saved successfully");
 
   } catch (error) {
 
@@ -476,12 +490,7 @@ async function savePortfolio() {
   }
 }
 
-saveBtn?.addEventListener(
-  "click",
-  savePortfolio
-);
+saveBtn?.addEventListener("click", savePortfolio);
+saveBtn2?.addEventListener("click", savePortfolio);
 
-saveBtn2?.addEventListener(
-  "click",
-  savePortfolio
-);
+    

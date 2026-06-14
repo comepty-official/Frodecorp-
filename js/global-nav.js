@@ -79,8 +79,8 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/f
 
       <div class="g-links">
         <a class="g-link" href="dashboard.html">Dashboard</a>
-        <a class="g-link" href="settings.html">Settings</a>
-        <a class="g-link" href="portfolio.html">Portfolio</a>
+       
+        <a class="g-link" href="#">Portfolio</a>
         
         
         <a class="g-link" href="editor.html">User Settings</a>
