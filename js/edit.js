@@ -1716,7 +1716,10 @@ async function publishProject() {
       title:     "My Site",
       updatedAt: serverTimestamp(),
     });
-    const url = `${location.origin}/viewer.html?id=${slug}`;
+    // Build viewer URL relative to where edit.html is hosted
+    // Works on GitHub Pages, localhost, subdirectories — anywhere
+    const basePath = location.href.substring(0, location.href.lastIndexOf("/") + 1);
+    const url = `${basePath}viewer.html?id=${slug}`;
     showShareModal(url);
     toast("Published! ✓");
   } catch(err) {
