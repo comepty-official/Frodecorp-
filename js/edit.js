@@ -35,8 +35,11 @@ let activeCodeTab = "html";
 let zoom          = 1;
 let currentDevice = "desktop";
 
-const STORAGE_KEY = "frodecorp_v4";
-const SNAP_GRID   = 10;
+const STORAGE_KEY       = "frodecorp_v4";
+const PROJECTS_INDEX    = "frodecorp_projects_v4"; // index of all local projects
+let   currentProjectId  = null;                    // active project id
+let   currentProjectTitle = "Untitled Site";
+const SNAP_GRID         = 10;
 const MIN_ZOOM    = 0.3;
 const MAX_ZOOM    = 2.5;
 
@@ -270,6 +273,7 @@ window.addEventListener("DOMContentLoaded", () => {
   updateEmptyHint();
   setupZoom();
   setupBottomBar();
+  setupProjectTitleBar();
 
   let ov = document.getElementById("panelOverlay");
   if (!ov) {
@@ -1703,7 +1707,9 @@ window.closePreview = closePreview;
 // =========================================================
 async function publishProject() {
   if (!currentUser) { toast("Please log in first"); return; }
-  const slug        = currentUser.uid.substr(0,8);
+  if (!currentProjectId) currentProjectId = "proj_" + Date.now();
+  // Each project gets its own Firestore doc: uid_projectId (max 40 chars)
+  const slug = (currentUser.uid.substr(0,8) + "_" + currentProjectId).substr(0,40);
   const htmlContent = generateFullPage();
   if (htmlContent.length > 900000) { toast("Project too large — reduce image sizes"); return; }
   try {
@@ -1711,9 +1717,10 @@ async function publishProject() {
     await setDoc(doc(db,"published_sites",slug), {
       uid:       currentUser.uid,
       slug,
+      projectId: currentProjectId,
       elements:  JSON.stringify(elements),
       html:      htmlContent,
-      title:     "My Site",
+      title:     currentProjectTitle || "My Site",
       updatedAt: serverTimestamp(),
     });
     // URL always relative to where edit.html is hosted
@@ -1790,41 +1797,203 @@ function showShareModal(url, slug) {
 }
 
 // =========================================================
-// STORAGE
+// STORAGE — multi-project
 // =========================================================
+function getProjectStorageKey(id) { return "frodecorp_proj_" + id; }
+
 function saveToStorage() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({version:4,elements,device:currentDevice})); } catch(e){}
+  if (!currentProjectId) currentProjectId = "proj_" + Date.now();
+  const data = { version:4, id:currentProjectId, title:currentProjectTitle, elements, device:currentDevice, savedAt:Date.now() };
+  try {
+    localStorage.setItem(getProjectStorageKey(currentProjectId), JSON.stringify(data));
+    updateProjectsIndex(currentProjectId, currentProjectTitle);
+  } catch(e) { console.error("Save failed",e); }
+  updateProjectTitleBar();
 }
+
+function updateProjectsIndex(id, title) {
+  try {
+    let idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX) || "[]");
+    const i = idx.findIndex(p => p.id === id);
+    const entry = { id, title: title||"Untitled Site", updatedAt:Date.now() };
+    if (i >= 0) idx[i] = entry; else idx.unshift(entry);
+    localStorage.setItem(PROJECTS_INDEX, JSON.stringify(idx));
+  } catch(e) {}
+}
+
+window.deleteProjectFromStorage = function(id) {
+  try {
+    localStorage.removeItem(getProjectStorageKey(id));
+    let idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX) || "[]");
+    idx = idx.filter(p => p.id !== id);
+    localStorage.setItem(PROJECTS_INDEX, JSON.stringify(idx));
+  } catch(e) {}
+};
+
+function setupProjectTitleBar() {
+  if (document.getElementById("projTitleWrap")) return;
+
+  // ── Try to inject into existing toolbar first ──────────
+  const toolbar = document.getElementById("toolbar")
+                || document.getElementById("topBar")
+                || document.querySelector(".topbar")
+                || document.querySelector("header nav")
+                || document.querySelector("header");
+
+  const wrap = document.createElement("div");
+  wrap.id = "projTitleWrap";
+
+  if (toolbar) {
+    // Inject inline into toolbar
+    wrap.style.cssText = "display:flex;align-items:center;gap:6px;margin:0 6px;flex-shrink:0";
+    toolbar.appendChild(wrap);
+  } else {
+    // No toolbar found — create a floating pill at the top-center
+    wrap.style.cssText = [
+      "position:fixed","top:10px","left:50%","transform:translateX(-50%)",
+      "z-index:9999","display:flex","align-items:center","gap:6px",
+      "background:var(--surface,#1a1a22)","border:1px solid var(--border,#2a2a3a)",
+      "border-radius:30px","padding:5px 10px",
+      "box-shadow:0 4px 20px rgba(0,0,0,.4)","backdrop-filter:blur(10px)"
+    ].join(";");
+    document.body.appendChild(wrap);
+  }
+
+  wrap.innerHTML = `
+    <i class="bi bi-file-earmark-code" style="color:var(--accent,#6c63ff);font-size:14px;flex-shrink:0"></i>
+    <input id="projectTitleInput" type="text" value="${currentProjectTitle}"
+      placeholder="Untitled Site"
+      title="Click to rename project"
+      style="background:transparent;border:none;outline:none;
+             color:var(--text,#e8e8f0);font-size:13px;font-family:inherit;
+             font-weight:600;width:140px;min-width:60px;cursor:text"
+    />
+    <span style="color:var(--border,#2a2a3a);font-size:16px;margin:0 2px">|</span>
+    <a href="saved.html"
+      title="All my projects"
+      style="display:flex;align-items:center;gap:4px;padding:4px 9px;
+             border:1px solid var(--border,#2a2a3a);border-radius:20px;
+             background:var(--surface2,#22222e);color:var(--text,#e8e8f0);
+             text-decoration:none;font-size:11px;white-space:nowrap;flex-shrink:0;
+             transition:border-color .15s"
+      onmouseover="this.style.borderColor='var(--accent,#6c63ff)'"
+      onmouseout="this.style.borderColor='var(--border,#2a2a3a)'">
+      <i class="bi bi-folder2"></i> Projects
+    </a>
+    <button onclick="newProject()"
+      title="New blank project"
+      style="display:flex;align-items:center;gap:4px;padding:4px 9px;
+             border:1px solid var(--border,#2a2a3a);border-radius:20px;
+             background:var(--accent,#6c63ff);color:#fff;
+             font-size:11px;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0">
+      <i class="bi bi-plus-lg"></i> New
+    </button>`;
+
+  document.getElementById("projectTitleInput")?.addEventListener("input", e => {
+    currentProjectTitle = e.target.value.trim() || "Untitled Site";
+    updateProjectsIndex(currentProjectId, currentProjectTitle);
+    updateProjectTitleBar();
+  });
+
+  // Save title on blur
+  document.getElementById("projectTitleInput")?.addEventListener("blur", () => {
+    saveToStorage();
+    toast("Renamed to \"" + currentProjectTitle + "\"");
+  });
+}
+
+function updateProjectTitleBar() {
+  const inp = document.getElementById("projectTitleInput");
+  if (inp && document.activeElement !== inp) inp.value = currentProjectTitle;
+}
+
+// Create a brand-new blank project
+window.newProject = function() {
+  if (elements.length > 0) {
+    if (!confirm("Save current project and start a new one?")) return;
+    saveToStorage();
+  }
+  elements = []; selectedId = null; histIdx = -1; history = [];
+  currentProjectId    = "proj_" + Date.now();
+  currentProjectTitle = "Untitled Site";
+  renderAllElements(); updateLayersPanel(); updateEmptyHint();
+  updateProjectTitleBar();
+  toast("New project created");
+};
 
 async function loadFromFirebase() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const proj = JSON.parse(raw);
-      elements = proj.elements || [];
-      zCounter = Math.max(zCounter, ...elements.map(e => e.z || 0));
-      if (proj.device) { currentDevice = proj.device; setCanvasWidth(proj.device); }
-      renderAllElements();
-      updateLayersPanel();
-      updateEmptyHint();
-      pushHistory();
-      toast("Project loaded ✓");
-      return;
+    // Load specific project from URL ?project=ID
+    if (currentProjectId) {
+      const raw = localStorage.getItem(getProjectStorageKey(currentProjectId));
+      if (raw) {
+        const proj = JSON.parse(raw);
+        elements = proj.elements || [];
+        currentProjectTitle = proj.title || "Untitled Site";
+        zCounter = Math.max(zCounter, ...elements.map(e => e.z||0));
+        if (proj.device) { currentDevice=proj.device; setCanvasWidth(proj.device); }
+        renderAllElements(); updateLayersPanel(); updateEmptyHint(); pushHistory();
+        updateProjectTitleBar();
+        toast("\""+currentProjectTitle+"\" loaded ✓");
+        return;
+      }
     }
+
+    // Migration: old single-project storage
+    const oldRaw = localStorage.getItem(STORAGE_KEY);
+    if (oldRaw) {
+      const proj = JSON.parse(oldRaw);
+      if ((proj.elements||[]).length > 0) {
+        currentProjectId    = "proj_" + Date.now();
+        currentProjectTitle = "My Site";
+        elements            = proj.elements || [];
+        zCounter = Math.max(zCounter, ...elements.map(e=>e.z||0));
+        if (proj.device) { currentDevice=proj.device; setCanvasWidth(proj.device); }
+        renderAllElements(); updateLayersPanel(); updateEmptyHint(); pushHistory();
+        saveToStorage();
+        localStorage.removeItem(STORAGE_KEY);
+        updateProjectTitleBar();
+        toast("Project migrated ✓");
+        return;
+      }
+    }
+
+    // Try most recently indexed local project
+    const idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX)||"[]");
+    if (idx.length > 0) {
+      const latest = idx[0];
+      currentProjectId    = latest.id;
+      currentProjectTitle = latest.title || "Untitled Site";
+      const raw = localStorage.getItem(getProjectStorageKey(currentProjectId));
+      if (raw) {
+        const proj = JSON.parse(raw);
+        elements = proj.elements || [];
+        zCounter = Math.max(zCounter, ...elements.map(e=>e.z||0));
+        if (proj.device) { currentDevice=proj.device; setCanvasWidth(proj.device); }
+        renderAllElements(); updateLayersPanel(); updateEmptyHint(); pushHistory();
+        updateProjectTitleBar();
+        toast("\""+currentProjectTitle+"\" loaded ✓");
+        return;
+      }
+    }
+
+    // Nothing local — try Firestore
     if (!currentUser) return;
     const snap = await getDoc(doc(db,"published_sites",currentUser.uid.substr(0,8)));
     if (snap.exists() && snap.data().elements) {
-      elements = JSON.parse(snap.data().elements);
-      zCounter = Math.max(zCounter, ...elements.map(e => e.z || 0));
-      renderAllElements();
-      updateLayersPanel();
-      updateEmptyHint();
-      pushHistory();
-      toast("Published project loaded ✓");
+      currentProjectId    = snap.data().projectId || "proj_"+Date.now();
+      currentProjectTitle = snap.data().title     || "My Site";
+      elements            = JSON.parse(snap.data().elements);
+      zCounter = Math.max(zCounter, ...elements.map(e=>e.z||0));
+      renderAllElements(); updateLayersPanel(); updateEmptyHint(); pushHistory();
+      saveToStorage(); updateProjectTitleBar();
+      toast("\""+currentProjectTitle+"\" loaded from cloud ✓");
+    } else {
+      // Brand new user — generate a fresh project id
+      currentProjectId = "proj_" + Date.now();
+      updateProjectTitleBar();
     }
-  } catch(e) {
-    console.error(e);
-  }
+  } catch(e) { console.error(e); }
 }
 
 // =========================================================
