@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="generator" content="Frodecorp Builder"/>
+<title>My Website</title>
+<style>
+/* Frodecorp — Published Site */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* ── Animations ── */
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes slide-in{from{transform:translateX(-40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes slide-up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes zoom{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+/* ── Responsive canvas ── */
+.fr-canvas{
+  position:relative;
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  /* height set by JS below */
+}
+
+/* ── Each element: absolute in editor, fluid in viewer ── */
+.fr-el{
+  position:absolute;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+/* ── Fluid overrides for small screens ── */
+@media(max-width:767px){
+  .fr-canvas{overflow-x:hidden}
+  .fr-el{
+    /* Convert px positions to % of 1200px design width */
+    position:relative!important;
+    left:auto!important;top:auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:var(--mh,auto);
+    margin-bottom:12px;
+  }
+  .fr-el[data-type="navbar"] nav{display:none}
+  .fr-el[data-type="hero"] h1{font-size:clamp(22px,6vw,36px)!important}
+  .fr-el[data-type="hero"]{padding:40px 20px!important}
+  .fr-el[data-type="stats"]{flex-wrap:wrap;gap:16px}
+  .fr-el[data-type="stats"]>div{flex:1;min-width:80px}
+}
+@media(min-width:768px) and (max-width:1199px){
+  .fr-el[data-type="hero"] h1{font-size:clamp(26px,3.5vw,48px)!important}
+}
+
+/* ── Responsive text ── */
+.fr-el h1{line-height:1.15}
+.fr-el p{line-height:1.6}
+button{font-family:'Inter',sans-serif}
+
+</style>
+</head>
+<body>
+<div class="fr-canvas" id="frCanvas" style="height:NaNpx" data-design-w="1200">
+  <div class="fr-el" data-type="header" style="position:absolute;left:0px;top:0px;width:1200px;height:90px;z-index:134;color:#ffffff;background-color:#1a1a2e;font-size:22px;font-family:Inter;font-weight:400;text-align:left;padding:20px;border-radius:0px;--mh:90px"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%"><span style="font-size:22px;font-family:Inter;font-weight:400;color:#ffffff;text-align:left;font-size:22px;font-weight:700">Your Full Name</span></div></div>
+  <div class="fr-el" data-type="text" style="position:absolute;left:36px;top:100px;width:336px;height:30px;z-index:135;color:#1a1a2e;background-color:transparent;font-size:15px;font-family:Inter;font-weight:400;text-align:left;padding:8px;border-radius:0px;--mh:30px"><span style="font-size:15px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;padding:4px;line-height:1.5">hello@email.com · linkedin.com/in/you</span></div>
+  <div class="fr-el" data-type="heading" style="position:absolute;left:36px;top:140px;width:336px;height:40px;z-index:136;color:#1a1a2e;background-color:transparent;font-size:16px;font-family:Inter;font-weight:400;text-align:left;padding:10px;border-radius:0px;--mh:40px"><span style="font-size:16px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;padding:4px;line-height:1.2">Skills</span></div>
+  <div class="fr-el" data-type="progress" style="position:absolute;left:36px;top:185px;width:336px;height:70px;z-index:137;color:#1a1a2e;background-color:#f0f0f8;font-size:13px;font-family:Inter;font-weight:400;text-align:left;padding:16px;border-radius:0px;--mh:70px"><div style="width:100%">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:600;color:#1a1a2e">Design</span><span style="font-size:13px;color:#6c63ff">80%</span></div>
+        <div style="background:#e5e7eb;border-radius:8px;height:10px;overflow:hidden"><div style="background:linear-gradient(90deg,#6c63ff,#a78bfa);width:80%;height:100%;border-radius:8px"></div></div>
+      </div></div>
+  <div class="fr-el" data-type="progress" style="position:absolute;left:undefinedpx;top:undefinedpx;width:nullpx;height:80px;z-index:138;color:#1a1a2e;background-color:#f0f0f8;font-size:13px;font-family:Inter;font-weight:400;text-align:left;padding:16px;border-radius:0px;--mh:80px"><div style="width:100%">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:600;color:#1a1a2e">Skill Name</span><span style="font-size:13px;color:#6c63ff">80%</span></div>
+        <div style="background:#e5e7eb;border-radius:8px;height:10px;overflow:hidden"><div style="background:linear-gradient(90deg,#6c63ff,#a78bfa);width:80%;height:100%;border-radius:8px"></div></div>
+      </div></div>
+  <div class="fr-el" data-type="heading" style="position:absolute;left:36px;top:350px;width:336px;height:40px;z-index:139;color:#1a1a2e;background-color:transparent;font-size:16px;font-family:Inter;font-weight:400;text-align:left;padding:10px;border-radius:0px;--mh:40px"><span style="font-size:16px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;padding:4px;line-height:1.2">Contact</span></div>
+  <div class="fr-el" data-type="contact" style="position:absolute;left:36px;top:395px;width:336px;height:200px;z-index:140;color:#1a1a2e;background-color:#f0f0f8;font-size:15px;font-family:Inter;font-weight:400;text-align:left;padding:32px;border-radius:0px;--mh:200px"><div>
+        <h3 style="font-size:15px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;font-weight:700;font-size:21px;margin:0 0 8px">Get In Touch</h3>
+        <p style="color:#999;font-size:13px;margin:0 0 20px">We'd love to hear from you.</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:12px"><span style="color:#6c63ff;font-size:18px">✉</span><span style="font-size:13px">hello@example.com</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><span style="color:#6c63ff;font-size:18px">☎</span><span style="font-size:13px">+1 (555) 000-0000</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><span style="color:#6c63ff;font-size:18px">📍</span><span style="font-size:13px">New York, NY 10001</span></div>
+        </div>
+      </div></div>
+  <div class="fr-el" data-type="heading" style="position:absolute;left:372px;top:140px;width:792px;height:40px;z-index:141;color:#1a1a2e;background-color:transparent;font-size:20px;font-family:Inter;font-weight:400;text-align:left;padding:10px;border-radius:0px;--mh:40px"><span style="font-size:20px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;padding:4px;line-height:1.2">Experience</span></div>
+  <div class="fr-el" data-type="card" style="position:absolute;left:372px;top:185px;width:792px;height:140px;z-index:142;color:#1a1a2e;background-color:#ffffff;font-size:15px;font-family:Inter;font-weight:400;text-align:left;padding:20px;border-radius:8px;--mh:140px"><div style="display:flex;flex-direction:column;width:100%;height:100%;box-shadow:0 2px 12px rgba(0,0,0,.07)">
+        <div style="background:linear-gradient(135deg,#6c63ff22,#ff658422);height:90px;border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center"></div>
+        <div style="padding:14px;flex:1">
+          <h4 style="font-size:15px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;font-weight:600;margin:0 0 6px">Senior Designer · Acme Corp</h4>
+          <p style="font-size:12px;color:#666;margin:0;line-height:1.5">Description text here.</p>
+        </div>
+      </div></div>
+  <div class="fr-el" data-type="card" style="position:absolute;left:372px;top:335px;width:792px;height:140px;z-index:143;color:#1a1a2e;background-color:#ffffff;font-size:15px;font-family:Inter;font-weight:400;text-align:left;padding:20px;border-radius:8px;--mh:140px"><div style="display:flex;flex-direction:column;width:100%;height:100%;box-shadow:0 2px 12px rgba(0,0,0,.07)">
+        <div style="background:linear-gradient(135deg,#6c63ff22,#ff658422);height:90px;border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center"></div>
+        <div style="padding:14px;flex:1">
+          <h4 style="font-size:15px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;font-weight:600;margin:0 0 6px">Designer · Cool Studio</h4>
+          <p style="font-size:12px;color:#666;margin:0;line-height:1.5">Description text here.</p>
+        </div>
+      </div></div>
+  <div class="fr-el" data-type="heading" style="position:absolute;left:372px;top:490px;width:792px;height:40px;z-index:144;color:#1a1a2e;background-color:transparent;font-size:20px;font-family:Inter;font-weight:400;text-align:left;padding:10px;border-radius:0px;--mh:40px"><span style="font-size:20px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;padding:4px;line-height:1.2">Education</span></div>
+  <div class="fr-el" data-type="card" style="position:absolute;left:372px;top:535px;width:792px;height:110px;z-index:145;color:#1a1a2e;background-color:#ffffff;font-size:15px;font-family:Inter;font-weight:400;text-align:left;padding:20px;border-radius:8px;--mh:110px"><div style="display:flex;flex-direction:column;width:100%;height:100%;box-shadow:0 2px 12px rgba(0,0,0,.07)">
+        <div style="background:linear-gradient(135deg,#6c63ff22,#ff658422);height:90px;border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center"></div>
+        <div style="padding:14px;flex:1">
+          <h4 style="font-size:15px;font-family:Inter;font-weight:400;color:#1a1a2e;text-align:left;font-weight:600;margin:0 0 6px">B.A. Graphic Design · State University</h4>
+          <p style="font-size:12px;color:#666;margin:0;line-height:1.5">Description text here.</p>
+        </div>
+      </div></div>
+  <div class="fr-el" data-type="footer" style="position:absolute;left:0px;top:670px;width:1200px;height:70px;z-index:146;color:#ffffff;background-color:#1a1a2e;font-size:13px;font-family:Inter;font-weight:400;text-align:left;padding:20px;border-radius:0px;--mh:70px"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-top:1px solid rgba(255,255,255,.1)"><span style="font-size:13px;font-family:Inter;font-weight:400;color:#ffffff;text-align:left;">© 2026 Your Name</span></div></div>
+</div>
+<script>
+// ── Responsive scaling for published pages ────────────────
+(function(){
+  var canvas   = document.getElementById("frCanvas");
+  var designW  = parseInt(canvas.dataset.designW) || 1200;
+
+  function scale(){
+    var vw = window.innerWidth;
+    if(vw >= designW){
+      // Full size — just centre it
+      canvas.style.transform = "";
+      canvas.style.transformOrigin = "";
+      canvas.style.width = designW + "px";
+      canvas.style.marginLeft = "auto";
+      canvas.style.marginRight = "auto";
+      return;
+    }
+    // Scale down proportionally — site looks IDENTICAL but smaller
+    var ratio = vw / designW;
+    canvas.style.transform = "scale(" + ratio + ")";
+    canvas.style.transformOrigin = "top left";
+    canvas.style.width = designW + "px";
+    canvas.style.marginLeft = "0";
+    // Collapse the scaled height so there's no gap
+    var ch = parseInt(canvas.style.height) || canvas.offsetHeight;
+    canvas.parentElement.style.minHeight = Math.ceil(ch * ratio) + "px";
+  }
+
+  scale();
+  window.addEventListener("resize", scale);
+})();
+</script>
+</body>
+</html>
