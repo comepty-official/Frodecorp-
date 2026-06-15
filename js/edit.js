@@ -1716,11 +1716,11 @@ async function publishProject() {
       title:     "My Site",
       updatedAt: serverTimestamp(),
     });
-    // Build viewer URL relative to where edit.html is hosted
-    // Works on GitHub Pages, localhost, subdirectories — anywhere
+    // URL always relative to where edit.html is hosted
+    // e.g. https://comepty-official.github.io/Frodecorp-/viewer.html?id=abc12345
     const basePath = location.href.substring(0, location.href.lastIndexOf("/") + 1);
-    const url = `${basePath}viewer.html?id=${slug}`;
-    showShareModal(url);
+    const url = basePath + "viewer.html?id=" + slug;
+    showShareModal(url, slug);
     toast("Published! ✓");
   } catch(err) {
     console.error(err);
@@ -1729,34 +1729,62 @@ async function publishProject() {
 }
 window.publishProject = publishProject;
 
-function showShareModal(url) {
+function showShareModal(url, slug) {
   document.getElementById("shareModal")?.remove();
   const modal = document.createElement("div");
   modal.id = "shareModal";
-  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9500;display:flex;align-items:center;justify-content:center;padding:20px";
+  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9500;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Inter,sans-serif";
+
+  const waUrl   = "https://wa.me/?text=" + encodeURIComponent("Check out my website: " + url);
+  const twUrl   = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent("Just built this with Frodecorp!");
+  const fbUrl   = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url);
+  const mailUrl = "mailto:?subject=Check out my site&body=" + encodeURIComponent("I built this website: " + url);
+
   modal.innerHTML = `
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:480px;width:100%">
-      <h3 style="margin:0 0 8px;font-size:16px;color:var(--text);display:flex;align-items:center;gap:8px">
-        <span style="color:#22c55e;font-size:20px">✓</span> Published!
-      </h3>
-      <p style="color:var(--text2);font-size:13px;margin:0 0 16px">Your site is live. Share this link:</p>
-      <div style="display:flex;gap:8px;margin-bottom:12px">
-        <input value="${url}" readonly style="flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface2);color:var(--text);font-size:13px"/>
-        <button onclick="navigator.clipboard.writeText('${url}').then(()=>window.toast('Copied!'))"
-          style="padding:10px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;white-space:nowrap">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;max-width:500px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.5)">
+
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+        <div style="width:44px;height:44px;background:rgba(34,197,94,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">✅</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:16px;color:var(--text)">Your site is live!</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px">Site ID: <span style="color:var(--accent);font-family:monospace">${slug}</span></div>
+        </div>
+        <button onclick="document.getElementById('shareModal').remove()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:22px;line-height:1;padding:4px 6px;border-radius:6px">✕</button>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Your site link</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <input id="smUrlInput" value="${url}" readonly onclick="this.select()"
+          style="flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);color:var(--text);font-size:12px;font-family:monospace;outline:none;cursor:pointer"/>
+        <button id="smCopyBtn" onclick="navigator.clipboard.writeText(document.getElementById('smUrlInput').value).then(()=>{document.getElementById('smCopyBtn').textContent='Copied ✓';setTimeout(()=>document.getElementById('smCopyBtn').textContent='Copy',2000)})"
+          style="padding:10px 18px;background:var(--accent);color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;white-space:nowrap;font-family:inherit">
           Copy
         </button>
       </div>
-      <div style="display:flex;gap:8px">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px">
         <a href="${url}" target="_blank"
-          style="flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;text-align:center;text-decoration:none;color:var(--text);font-size:13px">
-          Open Site
+          style="padding:10px 6px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-align:center;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:5px">
+          🌐 Open Site
+        </a>
+        <a href="saved.html"
+          style="padding:10px 6px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;text-align:center;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:5px">
+          📁 My Projects
         </a>
         <button onclick="document.getElementById('shareModal').remove()"
-          style="flex:1;padding:10px;background:none;border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text);font-size:13px">
-          Close
+          style="padding:10px 6px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;color:var(--text);font-size:12px;font-weight:600;font-family:inherit">
+          ✏️ Keep Editing
         </button>
       </div>
+
+      <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Share via</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="${waUrl}" target="_blank" style="padding:8px 14px;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700">WhatsApp</a>
+        <a href="${twUrl}" target="_blank" style="padding:8px 14px;background:#1DA1F2;color:#fff;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700">Twitter / X</a>
+        <a href="${fbUrl}" target="_blank" style="padding:8px 14px;background:#1877F2;color:#fff;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700">Facebook</a>
+        <a href="${mailUrl}" style="padding:8px 14px;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;text-decoration:none;font-size:12px;font-weight:700">Email</a>
+      </div>
+
     </div>`;
   document.body.appendChild(modal);
 }
