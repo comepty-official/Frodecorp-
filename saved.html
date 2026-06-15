@@ -2,287 +2,213 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>My Projects — Frodecorp</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
 <style>
-/* ── Variables ── */
 :root{
   --bg:#0f0f13;--surface:#1a1a22;--surface2:#22222e;--border:#2a2a3a;
   --text:#e8e8f0;--text2:#9999bb;--accent:#6c63ff;--accent2:#7c72ff;
-  --danger:#ef4444;--success:#22c55e;--warn:#f59e0b;
-  --radius:12px;--radius-sm:8px;
+  --danger:#ef4444;--success:#22c55e;--radius:12px;--radius-sm:8px;
 }
 [data-theme="light"]{
-  --bg:#f0f0f8;--surface:#ffffff;--surface2:#f4f4fc;--border:#dddde8;
+  --bg:#f0f0f8;--surface:#fff;--surface2:#f4f4fc;--border:#dddde8;
   --text:#1a1a2e;--text2:#666688;
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* ── Top Bar ── */
+/* TOP BAR */
 #topBar{
   position:sticky;top:0;z-index:100;
   background:rgba(15,15,19,.96);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
   padding:0 20px;height:56px;
-  display:flex;align-items:center;gap:14px;
+  display:flex;align-items:center;gap:12px;
 }
-.tb-brand{font-weight:800;font-size:15px;color:var(--accent);display:flex;align-items:center;gap:7px;text-decoration:none}
-.tb-brand i{font-size:18px}
-.tb-spacer{flex:1}
-.tb-btn{
+.brand{font-weight:800;font-size:15px;color:var(--accent);display:flex;align-items:center;gap:7px;text-decoration:none}
+.spacer{flex:1}
+.btn{
   display:flex;align-items:center;gap:6px;padding:7px 14px;
   border-radius:var(--radius-sm);border:1px solid var(--border);
   background:var(--surface2);color:var(--text);cursor:pointer;
   font-size:13px;font-family:inherit;text-decoration:none;
   transition:all .15s;white-space:nowrap;
 }
-.tb-btn:hover{background:var(--surface);border-color:var(--accent);color:var(--accent)}
-.tb-btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
-.tb-btn.accent:hover{background:var(--accent2)}
-.tb-avatar{
+.btn:hover{background:var(--surface);border-color:var(--accent);color:var(--accent)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.accent:hover{background:var(--accent2)}
+.avatar{
   width:32px;height:32px;border-radius:50%;background:var(--accent);
   display:flex;align-items:center;justify-content:center;
   font-weight:700;font-size:13px;color:#fff;cursor:pointer;
   border:2px solid var(--border);flex-shrink:0;overflow:hidden;
 }
-.tb-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 
-/* ── Page Layout ── */
-#page{max-width:1100px;margin:0 auto;padding:32px 20px 60px}
+/* PAGE */
+#page{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
+.page-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:12px;flex-wrap:wrap}
+.page-hdr h1{font-size:24px;font-weight:800}
+.page-hdr p{color:var(--text2);font-size:14px;margin-top:3px}
 
-/* ── Header ── */
-#pageHeader{
-  display:flex;align-items:center;gap:16px;margin-bottom:32px;
-  flex-wrap:wrap;gap:12px;
-}
-#pageHeader h1{font-size:24px;font-weight:800;flex:1}
-#pageHeader p{color:var(--text2);font-size:14px;margin-top:2px}
+/* TABS */
+.tabs{display:flex;gap:4px;background:var(--surface2);border-radius:var(--radius-sm);padding:4px;margin-bottom:24px;width:fit-content}
+.tab{padding:7px 16px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--text2);border:none;background:none;font-family:inherit;transition:all .15s}
+.tab.active{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.2)}
 
-/* ── Local Draft Banner ── */
-#draftBanner{
-  display:none;
-  background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(108,99,255,.04));
-  border:1px solid rgba(108,99,255,.3);border-radius:var(--radius);
-  padding:16px 20px;margin-bottom:24px;
-  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-}
-#draftBanner i{font-size:22px;color:var(--accent);flex-shrink:0}
-#draftBanner .db-text{flex:1}
-#draftBanner .db-title{font-weight:700;font-size:14px;margin-bottom:2px}
-#draftBanner .db-sub{font-size:12px;color:var(--text2)}
-.db-actions{display:flex;gap:8px;flex-wrap:wrap}
+/* GRID */
+#projectGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
 
-/* ── Project Grid ── */
-#projectGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:20px;
-}
-
-/* ── Project Card ── */
+/* CARD */
 .proj-card{
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius);overflow:hidden;
   transition:transform .2s,box-shadow .2s,border-color .2s;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;position:relative;
 }
-.proj-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.25);border-color:var(--accent)}
+.proj-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3);border-color:rgba(108,99,255,.5)}
 
-/* Preview thumbnail */
 .proj-thumb{
-  height:160px;background:var(--surface2);
-  position:relative;overflow:hidden;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
+  height:150px;background:var(--surface2);position:relative;overflow:hidden;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
 }
 .proj-thumb iframe{
   width:1200px;height:800px;border:none;pointer-events:none;
-  transform-origin:top left;
-  transform:scale(0.25);
+  transform-origin:top left;transform:scale(0.242);
   position:absolute;top:0;left:0;
 }
-.proj-thumb-placeholder{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  color:var(--text2);
-}
-.proj-thumb-placeholder i{font-size:32px;opacity:.4}
-.proj-thumb-placeholder span{font-size:12px;opacity:.5}
+.thumb-placeholder{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text2);pointer-events:none}
+.thumb-placeholder i{font-size:36px;opacity:.3}
+.thumb-placeholder span{font-size:12px;opacity:.4}
 
-/* Status badge */
-.proj-status{
-  position:absolute;top:10px;right:10px;
-  padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;
-  letter-spacing:.04em;text-transform:uppercase;
+.proj-badge{
+  position:absolute;top:10px;left:10px;
+  padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;backdrop-filter:blur(6px);
 }
-.proj-status.live{background:rgba(34,197,94,.2);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
-.proj-status.draft{background:rgba(245,158,11,.2);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.badge-live{background:rgba(34,197,94,.2);color:#22c55e;border:1px solid rgba(34,197,94,.35)}
+.badge-local{background:rgba(245,158,11,.2);color:#f59e0b;border:1px solid rgba(245,158,11,.35)}
 
-/* Card body */
-.proj-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px}
-.proj-name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.proj-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.proj-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
+.proj-name{
+  font-weight:700;font-size:14px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.proj-name input{
+  background:none;border:none;outline:none;color:var(--text);
+  font-weight:700;font-size:14px;font-family:inherit;width:100%;cursor:text;
+}
+.proj-name input:focus{border-bottom:1px solid var(--accent)}
+.proj-meta{display:flex;gap:10px;flex-wrap:wrap}
 .proj-meta span{font-size:11px;color:var(--text2);display:flex;align-items:center;gap:4px}
-
-/* Card actions */
-.proj-actions{display:flex;gap:8px;margin-top:4px}
-.pa-btn{
+.proj-actions{display:flex;gap:6px;margin-top:4px}
+.pa{
   flex:1;display:flex;align-items:center;justify-content:center;gap:5px;
-  padding:8px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);
+  padding:7px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);
   background:var(--surface2);color:var(--text);cursor:pointer;
-  font-size:12px;font-family:inherit;text-decoration:none;
-  transition:all .15s;white-space:nowrap;
+  font-size:12px;font-family:inherit;text-decoration:none;transition:all .15s;white-space:nowrap;
 }
-.pa-btn:hover{background:var(--surface);border-color:var(--accent);color:var(--accent)}
-.pa-btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
-.pa-btn.accent:hover{background:var(--accent2)}
-.pa-btn.danger{color:var(--danger)}
-.pa-btn.danger:hover{background:rgba(239,68,68,.1);border-color:var(--danger)}
+.pa:hover{background:var(--surface);border-color:var(--accent);color:var(--accent)}
+.pa.accent{background:var(--accent);border-color:var(--accent);color:#fff}
+.pa.accent:hover{background:var(--accent2)}
+.pa.danger{color:var(--danger)}
+.pa.danger:hover{background:rgba(239,68,68,.1);border-color:var(--danger)}
 
-/* ── Empty State ── */
-#emptyState{
-  display:none;
-  flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:80px 20px;gap:16px;
-}
-#emptyState i{font-size:56px;color:var(--accent);opacity:.4}
+/* EMPTY */
+#emptyState{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px;gap:14px}
+#emptyState i{font-size:56px;color:var(--accent);opacity:.35}
 #emptyState h2{font-size:22px;font-weight:700}
-#emptyState p{color:var(--text2);font-size:14px;max-width:320px;line-height:1.6}
+#emptyState p{color:var(--text2);font-size:14px;max-width:300px;line-height:1.6}
 
-/* ── Loading State ── */
-#loadingState{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:80px 20px;gap:16px;
-}
-.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+/* LOADING */
+#loadingState{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:14px}
+.spinner{width:38px;height:38px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── Delete Confirm Modal ── */
-#deleteModal{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
-  z-index:9000;align-items:center;justify-content:center;padding:20px;
-}
-#deleteModal.open{display:flex}
-#deleteBox{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);padding:28px;max-width:400px;width:100%;
-  text-align:center;
-}
-#deleteBox i{font-size:40px;color:var(--danger);margin-bottom:12px}
-#deleteBox h3{font-size:18px;font-weight:700;margin-bottom:8px}
-#deleteBox p{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:20px}
-.del-actions{display:flex;gap:10px}
-.del-actions button{flex:1;padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:13px;font-family:inherit;cursor:pointer}
-#confirmDeleteBtn{background:var(--danger);border-color:var(--danger);color:#fff}
-#cancelDeleteBtn{background:var(--surface2);color:var(--text)}
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9000;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:400px;width:100%;text-align:center}
+.modal-box i{font-size:40px;color:var(--danger);margin-bottom:12px;display:block}
+.modal-box h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.modal-box p{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:20px}
+.modal-actions{display:flex;gap:10px}
+.modal-actions button{flex:1;padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:13px;font-family:inherit;cursor:pointer}
+#confirmDelBtn{background:var(--danger);border-color:var(--danger);color:#fff}
+#cancelDelBtn{background:var(--surface2);color:var(--text)}
 
-/* ── Toast ── */
-#toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-  background:var(--surface);border:1px solid var(--border);color:var(--text);
-  padding:10px 20px;border-radius:20px;font-size:13px;z-index:9999;
-  opacity:0;transition:opacity .2s;pointer-events:none;
-  box-shadow:0 4px 20px rgba(0,0,0,.4);white-space:nowrap;
-}
+/* TOAST */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:20px;font-size:13px;z-index:9999;opacity:0;transition:opacity .2s;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.4);white-space:nowrap}
 #toast.show{opacity:1}
 
-/* ── Responsive ── */
 @media(max-width:600px){
-  #page{padding:20px 14px 40px}
-  #pageHeader h1{font-size:20px}
+  #page{padding:16px 12px 60px}
+  .page-hdr h1{font-size:20px}
   #projectGrid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div id="topBar">
-  <a class="tb-brand" href="index.html">
-    <i class="bi bi-grid-3x3-gap-fill"></i> Frodecorp
-  </a>
-  <div class="tb-spacer"></div>
-  <a class="tb-btn accent" href="edit.html">
-    <i class="bi bi-plus-lg"></i> New Project
-  </a>
-  <button class="tb-btn" id="themeBtn" onclick="toggleTheme()">
-    <i class="bi bi-moon"></i>
-  </button>
-  <div class="tb-avatar" id="userAvatar" title="Account">
-    <i class="bi bi-person-fill"></i>
-  </div>
+  <a class="brand" href="index.html"><i class="bi bi-grid-3x3-gap-fill"></i> Frodecorp</a>
+  <div class="spacer"></div>
+  <button class="btn" onclick="toggleTheme()"><i class="bi bi-moon" id="themeIcon"></i></button>
+  <div class="avatar" id="userAvatar"><i class="bi bi-person-fill"></i></div>
 </div>
 
-<!-- MAIN PAGE -->
 <div id="page">
-
-  <!-- Page header -->
-  <div id="pageHeader">
+  <div class="page-hdr">
     <div>
       <h1>My Projects</h1>
-      <p id="userGreeting">Loading your workspace…</p>
+      <p id="greeting">Loading…</p>
     </div>
+    <button class="btn accent" onclick="createNewProject()">
+      <i class="bi bi-plus-lg"></i> New Project
+    </button>
   </div>
 
-  <!-- Local draft banner -->
-  <div id="draftBanner">
-    <i class="bi bi-pencil-square"></i>
-    <div class="db-text">
-      <div class="db-title">Unsaved local draft</div>
-      <div class="db-sub" id="draftInfo">You have unsaved work in the editor.</div>
-    </div>
-    <div class="db-actions">
-      <a class="tb-btn accent" href="edit.html">
-        <i class="bi bi-arrow-right-circle"></i> Continue Editing
-      </a>
-      <button class="tb-btn" id="clearDraftBtn" onclick="clearLocalDraft()">
-        <i class="bi bi-trash"></i> Discard
-      </button>
-    </div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('local',this)">
+      <i class="bi bi-hdd"></i> Local Drafts
+    </button>
+    <button class="tab" onclick="showTab('published',this)">
+      <i class="bi bi-globe"></i> Published
+    </button>
   </div>
 
-  <!-- Loading -->
-  <div id="loadingState">
-    <div class="spinner"></div>
-    <p style="color:var(--text2);font-size:13px">Loading your projects…</p>
-  </div>
-
-  <!-- Project grid -->
+  <div id="loadingState"><div class="spinner"></div><p style="color:var(--text2);font-size:13px">Loading…</p></div>
   <div id="projectGrid"></div>
-
-  <!-- Empty state -->
   <div id="emptyState">
     <i class="bi bi-folder2-open"></i>
-    <h2>No projects yet</h2>
-    <p>Start building your first website. It takes less than a minute to get something live.</p>
-    <a class="tb-btn accent" href="edit.html" style="margin-top:8px;padding:10px 24px">
+    <h2 id="emptyTitle">No projects yet</h2>
+    <p id="emptyMsg">Start building something. It only takes a minute.</p>
+    <button class="btn accent" onclick="createNewProject()" style="margin-top:8px;padding:10px 24px">
       <i class="bi bi-plus-lg"></i> Create First Project
-    </a>
+    </button>
   </div>
-
 </div>
 
-<!-- DELETE CONFIRM MODAL -->
-<div id="deleteModal">
-  <div id="deleteBox">
+<!-- DELETE MODAL -->
+<div class="modal" id="deleteModal">
+  <div class="modal-box">
     <i class="bi bi-exclamation-triangle-fill"></i>
-    <h3>Delete this project?</h3>
-    <p>This will permanently remove the published site. This cannot be undone.</p>
-    <div class="del-actions">
-      <button id="cancelDeleteBtn" onclick="closeDeleteModal()">Cancel</button>
-      <button id="confirmDeleteBtn" onclick="confirmDelete()">Delete</button>
+    <h3>Delete project?</h3>
+    <p>This permanently removes the project. If it's published, the live site will also be deleted.</p>
+    <div class="modal-actions">
+      <button id="cancelDelBtn" onclick="closeDeleteModal()">Cancel</button>
+      <button id="confirmDelBtn" onclick="confirmDelete()">Delete</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
 <script type="module">
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, deleteDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const FIREBASE_CONFIG = {
@@ -298,250 +224,325 @@ const app  = getApps().length ? getApps()[0] : initializeApp(FIREBASE_CONFIG);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 
-const STORAGE_KEY = "frodecorp_v4";
+const PROJECTS_INDEX = "frodecorp_projects_v4";
+const basePath = location.href.substring(0, location.href.lastIndexOf("/") + 1);
 
 let currentUser   = null;
-let deleteTargetId = null;
+let currentTab    = "local";
+let deleteTarget  = null; // { type:"local"|"published", id, slug }
 
-// ── Auth guard ────────────────────────────────────────────
-onAuthStateChanged(auth, async user => {
+// ── Auth ──────────────────────────────────────────────────
+onAuthStateChanged(auth, user => {
   if (!user) { location.href = "login.html"; return; }
   currentUser = user;
 
-  // Avatar
-  const avatar = document.getElementById("userAvatar");
-  if (user.photoURL) {
-    avatar.innerHTML = `<img src="${user.photoURL}" alt=""/>`;
-  } else {
-    avatar.textContent = (user.displayName || user.email || "U")[0].toUpperCase();
-  }
-
-  // Greeting
   const name = user.displayName?.split(" ")[0] || user.email?.split("@")[0] || "there";
-  document.getElementById("userGreeting").textContent = "Welcome back, " + name + " 👋";
+  document.getElementById("greeting").textContent = "Welcome back, " + name + " 👋";
 
-  // Check for local draft
-  checkLocalDraft();
+  const av = document.getElementById("userAvatar");
+  if (user.photoURL) av.innerHTML = `<img src="${user.photoURL}"/>`;
+  else av.textContent = (user.displayName || user.email || "U")[0].toUpperCase();
 
-  // Load published project
-  await loadProjects(user);
+  showTab("local", document.querySelector(".tab.active"));
 });
 
-// ── Check localStorage for unsaved draft ─────────────────
-function checkLocalDraft() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const proj = JSON.parse(raw);
-    const els  = proj.elements || [];
-    if (els.length === 0) return;
+document.getElementById("userAvatar").addEventListener("click", () => {
+  if (confirm("Sign out?")) signOut(auth).then(() => location.href = "login.html");
+});
 
-    // Show the banner
-    const banner = document.getElementById("draftBanner");
-    banner.style.display = "flex";
-
-    const info = document.getElementById("draftInfo");
-    info.textContent = els.length + " element" + (els.length !== 1 ? "s" : "") + " in your local draft — continue where you left off.";
-  } catch(_) {}
-}
-
-window.clearLocalDraft = function() {
-  if (!confirm("Discard your local draft? This cannot be undone.")) return;
-  localStorage.removeItem(STORAGE_KEY);
-  document.getElementById("draftBanner").style.display = "none";
-  toast("Draft discarded");
+// ── Tabs ──────────────────────────────────────────────────
+window.showTab = function(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  btn.classList.add("active");
+  loadProjects(tab);
 };
 
-// ── Load the user's published project from Firestore ─────
-async function loadProjects(user) {
-  const grid    = document.getElementById("projectGrid");
+// ── Load projects ─────────────────────────────────────────
+async function loadProjects(tab) {
+  const grid  = document.getElementById("projectGrid");
+  const empty = document.getElementById("emptyState");
   const loading = document.getElementById("loadingState");
-  const empty   = document.getElementById("emptyState");
 
   grid.innerHTML    = "";
-  loading.style.display = "flex";
   empty.style.display   = "none";
+  loading.style.display = "flex";
 
+  if (tab === "local") {
+    await loadLocalProjects(grid, empty, loading);
+  } else {
+    await loadPublishedProjects(grid, empty, loading);
+  }
+}
+
+// ── Local drafts from localStorage ───────────────────────
+async function loadLocalProjects(grid, empty, loading) {
   try {
-    const slug = user.uid.substring(0, 8);
-    const snap = await getDoc(doc(db, "published_sites", slug));
+    let idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX) || "[]");
+
+    // Also check old single-project key for migration
+    const oldRaw = localStorage.getItem("frodecorp_v4");
+    if (oldRaw) {
+      try {
+        const old = JSON.parse(oldRaw);
+        if ((old.elements||[]).length > 0 && !idx.find(p=>p.id==="migrated_old")) {
+          idx.unshift({ id:"migrated_old", title:"My Site (migrated)", updatedAt: Date.now() });
+          localStorage.setItem("frodecorp_proj_migrated_old", JSON.stringify({ version:4, id:"migrated_old", title:"My Site", elements:old.elements, device:old.device||"desktop" }));
+          localStorage.setItem(PROJECTS_INDEX, JSON.stringify(idx));
+          localStorage.removeItem("frodecorp_v4");
+        }
+      } catch(_) {}
+    }
 
     loading.style.display = "none";
 
-    if (!snap.exists()) {
-      // No published project — show empty state
+    if (!idx.length) {
       empty.style.display = "flex";
+      document.getElementById("emptyTitle").textContent = "No local drafts";
+      document.getElementById("emptyMsg").textContent   = "Create a new project to start building.";
       return;
     }
 
-    const data = snap.data();
-    renderProjectCard(grid, slug, data);
+    idx.forEach(entry => {
+      const raw = localStorage.getItem("frodecorp_proj_" + entry.id);
+      const proj = raw ? JSON.parse(raw) : {};
+      const card = makeLocalCard(entry, proj);
+      grid.appendChild(card);
+    });
 
   } catch(err) {
     loading.style.display = "none";
-    console.error(err);
-    toast("Error loading projects: " + err.message);
-    document.getElementById("emptyState").style.display = "flex";
+    toast("Error: " + err.message);
   }
 }
 
-// ── Render a single project card ──────────────────────────
-function renderProjectCard(grid, slug, data) {
-  const updatedAt = data.updatedAt?.toDate?.() || null;
-  const timeStr   = updatedAt ? formatTime(updatedAt) : "Unknown";
-  const basePath  = location.href.substring(0, location.href.lastIndexOf("/") + 1);
-  const viewUrl   = `${basePath}viewer.html?id=${slug}`;
-  const elemCount = (() => {
-    try { return JSON.parse(data.elements || "[]").length; } catch(_) { return "?"; }
-  })();
+function makeLocalCard(entry, proj) {
+  const els     = (proj.elements || []).length;
+  const updated = entry.updatedAt ? fmtTime(new Date(entry.updatedAt)) : "—";
+  const editUrl = basePath + "edit.html?project=" + entry.id;
 
   const card = document.createElement("div");
   card.className = "proj-card";
-  card.id = "card-" + slug;
+  card.id = "card-" + entry.id;
 
   card.innerHTML = `
-    <div class="proj-thumb" id="thumb-${slug}">
-      <div class="proj-thumb-placeholder">
-        <i class="bi bi-globe"></i>
-        <span>Published site</span>
-      </div>
-      <span class="proj-status live"><i class="bi bi-circle-fill" style="font-size:6px"></i> Live</span>
+    <div class="proj-thumb" onclick="location.href='${editUrl}'" id="thumb-${entry.id}">
+      <div class="thumb-placeholder"><i class="bi bi-pencil-square"></i><span>Local Draft</span></div>
+      <span class="proj-badge badge-local"><i class="bi bi-hdd" style="font-size:8px"></i> Draft</span>
     </div>
     <div class="proj-body">
-      <div class="proj-name">${escHtml(data.title || "My Site")}</div>
+      <div class="proj-name">
+        <input type="text" value="${escHtml(entry.title||'Untitled Site')}"
+          onchange="renameProject('${entry.id}',this.value)"
+          onclick="event.stopPropagation()"
+          placeholder="Project name…"/>
+      </div>
       <div class="proj-meta">
-        <span><i class="bi bi-layers"></i> ${elemCount} elements</span>
-        <span><i class="bi bi-clock"></i> ${timeStr}</span>
-        <span><i class="bi bi-link-45deg"></i> /${slug}</span>
+        <span><i class="bi bi-layers"></i> ${els} element${els!==1?'s':''}</span>
+        <span><i class="bi bi-clock"></i> ${updated}</span>
       </div>
       <div class="proj-actions">
-        <a class="pa-btn accent" href="edit.html">
-          <i class="bi bi-pencil"></i> Edit
-        </a>
-        <a class="pa-btn" href="${viewUrl}" target="_blank">
-          <i class="bi bi-eye"></i> View
-        </a>
-        <button class="pa-btn" onclick="copyLink('${viewUrl}')">
-          <i class="bi bi-share"></i> Share
-        </button>
-        <button class="pa-btn danger" onclick="openDeleteModal('${slug}')">
-          <i class="bi bi-trash"></i>
-        </button>
+        <a class="pa accent" href="${editUrl}"><i class="bi bi-pencil"></i> Edit</a>
+        <button class="pa" onclick="duplicateProject('${entry.id}')"><i class="bi bi-copy"></i> Duplicate</button>
+        <button class="pa danger" onclick="openDeleteModal('local','${entry.id}',null)"><i class="bi bi-trash"></i></button>
       </div>
     </div>`;
 
-  grid.appendChild(card);
-
-  // Load preview thumbnail in iframe after card is in DOM
-  setTimeout(() => loadThumb(slug, data.html), 300);
+  return card;
 }
 
-// ── Load iframe preview thumbnail ────────────────────────
-function loadThumb(slug, html) {
-  if (!html) return;
-  const container = document.getElementById("thumb-" + slug);
-  if (!container) return;
+// ── Published projects from Firestore ─────────────────────
+async function loadPublishedProjects(grid, empty, loading) {
+  if (!currentUser) { loading.style.display="none"; return; }
+  try {
+    const q    = query(collection(db,"published_sites"), where("uid","==",currentUser.uid));
+    const snap = await getDocs(q);
 
+    loading.style.display = "none";
+
+    if (snap.empty) {
+      empty.style.display = "flex";
+      document.getElementById("emptyTitle").textContent = "Nothing published yet";
+      document.getElementById("emptyMsg").textContent   = "Open a local draft and hit Publish to make it live.";
+      return;
+    }
+
+    snap.forEach(docSnap => {
+      const data = docSnap.data();
+      const card = makePublishedCard(docSnap.id, data);
+      grid.appendChild(card);
+    });
+
+  } catch(err) {
+    loading.style.display = "none";
+    toast("Error: " + err.message);
+    console.error(err);
+  }
+}
+
+function makePublishedCard(slug, data) {
+  const updatedAt = data.updatedAt?.toDate?.() || null;
+  const updated   = updatedAt ? fmtTime(updatedAt) : "—";
+  const viewUrl   = basePath + "viewer.html?id=" + slug;
+  const editUrl   = data.projectId
+    ? basePath + "edit.html?project=" + data.projectId
+    : basePath + "edit.html";
+  const els = (() => { try { return JSON.parse(data.elements||"[]").length; } catch(_){return "?";} })();
+
+  const card = document.createElement("div");
+  card.className = "proj-card";
+  card.id = "pubcard-" + slug;
+
+  card.innerHTML = `
+    <div class="proj-thumb" onclick="window.open('${viewUrl}','_blank')" id="thumb-pub-${slug}" style="cursor:pointer">
+      <div class="thumb-placeholder"><i class="bi bi-globe"></i><span>Published Site</span></div>
+      <span class="proj-badge badge-live"><i class="bi bi-circle-fill" style="font-size:6px"></i> Live</span>
+    </div>
+    <div class="proj-body">
+      <div class="proj-name" style="cursor:default">${escHtml(data.title||"My Site")}</div>
+      <div class="proj-meta">
+        <span><i class="bi bi-layers"></i> ${els} element${els!==1?'s':''}</span>
+        <span><i class="bi bi-clock"></i> ${updated}</span>
+        <span><i class="bi bi-link-45deg"></i> /${slug.substring(0,16)}</span>
+      </div>
+      <div class="proj-actions">
+        <a class="pa accent" href="${editUrl}"><i class="bi bi-pencil"></i> Edit</a>
+        <a class="pa" href="${viewUrl}" target="_blank"><i class="bi bi-eye"></i> View</a>
+        <button class="pa" onclick="copyLink('${viewUrl}')"><i class="bi bi-share"></i> Share</button>
+        <button class="pa danger" onclick="openDeleteModal('published',null,'${slug}')"><i class="bi bi-trash"></i></button>
+      </div>
+    </div>`;
+
+  // Load live thumbnail after mount
+  setTimeout(() => loadThumb("thumb-pub-" + slug, data.html), 400);
+
+  return card;
+}
+
+function loadThumb(containerId, html) {
+  if (!html) return;
+  const c = document.getElementById(containerId);
+  if (!c) return;
   const iframe = document.createElement("iframe");
   iframe.sandbox = "allow-scripts";
   iframe.srcdoc  = html;
-  iframe.title   = "Preview";
-
-  // Scale to fit the 300px thumbnail
-  // iframe is 1200px wide, container is ~300px → scale 0.25
-  iframe.style.cssText = `
-    width:1200px;height:800px;border:none;pointer-events:none;
-    transform-origin:top left;transform:scale(0.25);
-    position:absolute;top:0;left:0;
-  `;
-
-  // Remove placeholder once loaded
+  iframe.style.cssText = "width:1200px;height:800px;border:none;pointer-events:none;transform-origin:top left;transform:scale(0.242);position:absolute;top:0;left:0";
   iframe.addEventListener("load", () => {
-    const placeholder = container.querySelector(".proj-thumb-placeholder");
-    if (placeholder) placeholder.style.display = "none";
-  }, { once: true });
-
-  container.appendChild(iframe);
+    const ph = c.querySelector(".thumb-placeholder");
+    if (ph) ph.style.display = "none";
+  }, { once:true });
+  c.appendChild(iframe);
 }
 
+// ── Rename local project ──────────────────────────────────
+window.renameProject = function(id, newTitle) {
+  try {
+    const key = "frodecorp_proj_" + id;
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      const proj = JSON.parse(raw);
+      proj.title = newTitle;
+      localStorage.setItem(key, JSON.stringify(proj));
+    }
+    let idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX)||"[]");
+    const i = idx.findIndex(p=>p.id===id);
+    if (i>=0) { idx[i].title = newTitle; localStorage.setItem(PROJECTS_INDEX, JSON.stringify(idx)); }
+    toast("Renamed ✓");
+  } catch(e) { toast("Rename failed"); }
+};
+
+// ── Duplicate local project ───────────────────────────────
+window.duplicateProject = function(id) {
+  try {
+    const raw = localStorage.getItem("frodecorp_proj_" + id);
+    if (!raw) { toast("Project not found"); return; }
+    const proj    = JSON.parse(raw);
+    const newId   = "proj_" + Date.now();
+    const newProj = { ...proj, id:newId, title:(proj.title||"Untitled")+" (copy)", savedAt:Date.now() };
+    localStorage.setItem("frodecorp_proj_" + newId, JSON.stringify(newProj));
+    let idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX)||"[]");
+    idx.unshift({ id:newId, title:newProj.title, updatedAt:Date.now() });
+    localStorage.setItem(PROJECTS_INDEX, JSON.stringify(idx));
+    // Insert card at top
+    const grid = document.getElementById("projectGrid");
+    const card = makeLocalCard({ id:newId, title:newProj.title, updatedAt:Date.now() }, newProj);
+    grid.insertBefore(card, grid.firstChild);
+    toast("Duplicated ✓");
+  } catch(e) { toast("Duplicate failed: "+e.message); }
+};
+
+// ── New project ───────────────────────────────────────────
+window.createNewProject = function() {
+  const newId = "proj_" + Date.now();
+  // Create empty entry in index so edit.js picks it up
+  let idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX)||"[]");
+  idx.unshift({ id:newId, title:"Untitled Site", updatedAt:Date.now() });
+  localStorage.setItem(PROJECTS_INDEX, JSON.stringify(idx));
+  localStorage.setItem("frodecorp_proj_"+newId, JSON.stringify({ version:4, id:newId, title:"Untitled Site", elements:[], device:"desktop", savedAt:Date.now() }));
+  location.href = basePath + "edit.html?project=" + newId;
+};
+
 // ── Delete ────────────────────────────────────────────────
-window.openDeleteModal = function(slug) {
-  deleteTargetId = slug;
+window.openDeleteModal = function(type, localId, slug) {
+  deleteTarget = { type, localId, slug };
   document.getElementById("deleteModal").classList.add("open");
 };
 window.closeDeleteModal = function() {
-  deleteTargetId = null;
+  deleteTarget = null;
   document.getElementById("deleteModal").classList.remove("open");
 };
 window.confirmDelete = async function() {
-  if (!deleteTargetId || !currentUser) return;
+  if (!deleteTarget) return;
+  const { type, localId, slug } = deleteTarget;
+  closeDeleteModal();
   try {
-    await deleteDoc(doc(db, "published_sites", deleteTargetId));
-    document.getElementById("card-" + deleteTargetId)?.remove();
-    closeDeleteModal();
-    toast("Project deleted");
-    // Also clear local draft if it matches
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) { localStorage.removeItem(STORAGE_KEY); }
-    // Show empty state if grid is now empty
-    const grid = document.getElementById("projectGrid");
-    if (!grid.children.length) {
-      document.getElementById("emptyState").style.display = "flex";
+    if (type === "local") {
+      localStorage.removeItem("frodecorp_proj_" + localId);
+      let idx = JSON.parse(localStorage.getItem(PROJECTS_INDEX)||"[]");
+      idx = idx.filter(p=>p.id!==localId);
+      localStorage.setItem(PROJECTS_INDEX, JSON.stringify(idx));
+      document.getElementById("card-"+localId)?.remove();
+      toast("Draft deleted");
+    } else {
+      await deleteDoc(doc(db,"published_sites",slug));
+      document.getElementById("pubcard-"+slug)?.remove();
+      toast("Published site deleted");
     }
-  } catch(err) {
-    toast("Delete failed: " + err.message);
-  }
+    const grid = document.getElementById("projectGrid");
+    if (!grid.children.length) document.getElementById("emptyState").style.display="flex";
+  } catch(e) { toast("Delete failed: "+e.message); }
 };
 
-// ── Copy share link ───────────────────────────────────────
+// ── Copy link ─────────────────────────────────────────────
 window.copyLink = function(url) {
-  navigator.clipboard.writeText(url).then(() => toast("Link copied! 🔗"));
+  navigator.clipboard.writeText(url).then(()=>toast("Link copied! 🔗"));
 };
 
 // ── Helpers ───────────────────────────────────────────────
-function formatTime(date) {
-  const now  = new Date();
-  const diff = Math.floor((now - date) / 1000);
-  if (diff < 60)   return "Just now";
-  if (diff < 3600) return Math.floor(diff/60) + "m ago";
-  if (diff < 86400)return Math.floor(diff/3600) + "h ago";
-  if (diff < 604800)return Math.floor(diff/86400) + "d ago";
+function fmtTime(date) {
+  const diff = Math.floor((Date.now()-date)/1000);
+  if (diff<60)  return "Just now";
+  if (diff<3600)return Math.floor(diff/60)+"m ago";
+  if (diff<86400)return Math.floor(diff/3600)+"h ago";
+  if (diff<604800)return Math.floor(diff/86400)+"d ago";
   return date.toLocaleDateString();
 }
-
-function escHtml(s) {
-  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function escHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2400);
 }
-
-function toast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove("show"), 2400);
-}
-window.toast = toast;
 
 // ── Theme ─────────────────────────────────────────────────
-window.toggleTheme = function() {
-  const html = document.documentElement;
-  const dark = html.dataset.theme === "dark";
-  html.dataset.theme = dark ? "light" : "dark";
-  document.getElementById("themeBtn").innerHTML = dark
-    ? '<i class="bi bi-sun"></i>'
-    : '<i class="bi bi-moon"></i>';
+window.toggleTheme = function(){
+  const dark=document.documentElement.dataset.theme==="dark";
+  document.documentElement.dataset.theme=dark?"light":"dark";
+  document.getElementById("themeIcon").className=dark?"bi bi-sun":"bi bi-moon";
 };
 
-// ── Sign out on avatar click ──────────────────────────────
-document.getElementById("userAvatar").addEventListener("click", () => {
-  if (confirm("Sign out?")) {
-    signOut(auth).then(() => location.href = "login.html");
-  }
-});
-
-// Close delete modal on backdrop
-document.getElementById("deleteModal").addEventListener("click", e => {
-  if (e.target === document.getElementById("deleteModal")) closeDeleteModal();
+document.getElementById("deleteModal").addEventListener("click",e=>{
+  if(e.target===document.getElementById("deleteModal"))closeDeleteModal();
 });
 </script>
 </body>
