@@ -31,100 +31,100 @@ body{font-family:'Inter',sans-serif;background:#0f0f13;color:#e8e8f0;min-height:
 .vbar-btn.accent:hover{background:#7c72ff}
 #editBtn{display:none}
 
-#loadingState{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-}
-.spinner{
-  width:44px;height:44px;border:3px solid #1e1e2e;border-top-color:#6c63ff;
-  border-radius:50%;animation:spin .7s linear infinite;
-}
+#loadingState{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.spinner{width:44px;height:44px;border:3px solid #1e1e2e;border-top-color:#6c63ff;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-#loadStatus{color:#9999bb;font-size:13px;text-align:center;max-width:300px;line-height:1.5}
+#loadStatus{color:#9999bb;font-size:13px;text-align:center;max-width:300px;line-height:1.6}
 
-#errorState{
-  display:none;flex:1;flex-direction:column;align-items:center;
-  justify-content:center;gap:14px;text-align:center;padding:40px;
-}
-#errorIcon{font-size:52px;color:#ef4444;opacity:.8}
+#errorState{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:40px}
 #errorTitle{font-size:22px;font-weight:700}
 #errorMsg{color:#9999bb;font-size:14px;max-width:380px;line-height:1.6}
-#errorDetail{
-  font-size:11px;color:#555566;background:#0a0a12;border:1px solid #1e1e2e;
-  border-radius:8px;padding:10px 14px;max-width:420px;word-break:break-all;
-  font-family:monospace;display:none;
-}
-.err-btn{
-  padding:10px 24px;background:#6c63ff;color:#fff;
-  border:none;border-radius:10px;cursor:pointer;font-size:14px;
-  font-family:inherit;text-decoration:none;display:inline-block;
-}
-.err-link{color:#6c63ff;font-size:13px;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit}
+#errorDetail{font-size:11px;color:#9999bb;background:#0a0a12;border:1px solid #1e1e2e;border-radius:8px;padding:12px 14px;max-width:440px;word-break:break-all;font-family:monospace;line-height:1.6;display:none}
+.err-btn{padding:10px 24px;background:#6c63ff;color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-family:inherit;text-decoration:none;display:inline-block}
+.err-link{color:#6c63ff;font-size:12px;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit;margin-top:-6px}
 
-#siteFrame{
-  display:none;flex:1;width:100%;border:none;background:#fff;
-  min-height:calc(100vh - 52px);
-}
+#siteFrame{display:none;flex:1;width:100%;border:none;background:#fff;min-height:calc(100vh - 52px)}
 
-#shareToast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-  background:#1a1a22;border:1px solid #333345;color:#e8e8f0;
-  padding:10px 22px;border-radius:20px;font-size:13px;z-index:9999;
-  opacity:0;transition:opacity .2s;pointer-events:none;
-  box-shadow:0 4px 24px rgba(0,0,0,.5);white-space:nowrap;
-}
+#shareToast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a22;border:1px solid #333345;color:#e8e8f0;padding:10px 22px;border-radius:20px;font-size:13px;z-index:9999;opacity:0;transition:opacity .2s;pointer-events:none;box-shadow:0 4px 24px rgba(0,0,0,.5);white-space:nowrap}
 #shareToast.show{opacity:1}
 
-#shareModal{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
-  z-index:8000;align-items:center;justify-content:center;padding:20px;
-}
+#shareModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:8000;align-items:center;justify-content:center;padding:20px}
 #shareModal.open{display:flex}
-#shareBox{
-  background:#12121c;border:1px solid #2a2a3a;border-radius:18px;
-  padding:28px;max-width:460px;width:100%;
-}
+#shareBox{background:#12121c;border:1px solid #2a2a3a;border-radius:18px;padding:28px;max-width:460px;width:100%}
 #shareBox h3{font-size:17px;margin:0 0 8px;display:flex;align-items:center;gap:8px;color:#e8e8f0}
 #shareBox p{color:#9999bb;font-size:13px;margin:0 0 18px;line-height:1.5}
 .share-url-row{display:flex;gap:8px}
-.share-url-row input{
-  flex:1;padding:10px 12px;border:1px solid #2a2a3a;border-radius:10px;
-  background:#1a1a26;color:#e8e8f0;font-size:13px;font-family:inherit;outline:none;
-}
-.share-url-row button{
-  padding:10px 16px;background:#6c63ff;color:#fff;border:none;
-  border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;
-}
+.share-url-row input{flex:1;padding:10px 12px;border:1px solid #2a2a3a;border-radius:10px;background:#1a1a26;color:#e8e8f0;font-size:13px;font-family:inherit;outline:none}
+.share-url-row button{padding:10px 16px;background:#6c63ff;color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap}
 .share-actions{display:flex;gap:8px;margin-top:12px}
-.share-actions a,.share-actions button{
-  flex:1;padding:11px;text-align:center;border-radius:10px;font-size:13px;
-  cursor:pointer;text-decoration:none;border:1px solid #2a2a3a;
-  background:#1a1a26;color:#e8e8f0;font-family:inherit;
-}
+.share-actions a,.share-actions button{flex:1;padding:11px;text-align:center;border-radius:10px;font-size:13px;cursor:pointer;text-decoration:none;border:1px solid #2a2a3a;background:#1a1a26;color:#e8e8f0;font-family:inherit}
 </style>
 </head>
 <body>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div id="viewerBar">
+
+
+  
+
+
   <span class="brand"><i class="bi bi-grid-3x3-gap-fill"></i> Frodecorp</span>
   <span class="site-title" id="siteTitle">Loading…</span>
+
+
+      <a class="vbar-btn accent" href="saved.html" id=""><i class="bi bi-pencil"></i> Go To Saved </a>
+      
   <button class="vbar-btn" onclick="openShareModal()"><i class="bi bi-share"></i> Share</button>
   <a class="vbar-btn accent" href="edit.html" id="editBtn"><i class="bi bi-pencil"></i> Edit</a>
-  <a class="vbar-btn" href="index.html"><i class="bi bi-house"></i></a>
+  <a class="vbar-btn" href="dashboard.html"><i class="bi bi-house"></i></a>
+
+
 </div>
+
+
+
+
+
 
 <div id="loadingState">
   <div class="spinner"></div>
-  <p id="loadStatus">Connecting to Frodecorp…</p>
+  <p id="loadStatus">Starting up…</p>
 </div>
 
 <div id="errorState">
-  <div id="errorIcon">⚠️</div>
+  <div style="font-size:48px">⚠️</div>
   <div id="errorTitle">Could not load site</div>
-  <div id="errorMsg">This site may not exist, or there was a connection problem.</div>
+  <div id="errorMsg">Something went wrong.</div>
   <div id="errorDetail"></div>
-  <a class="err-btn" href="index.html">Go Home</a>
-  <button class="err-link" onclick="document.getElementById('errorDetail').style.display='block'">Show technical details</button>
+  <a class="err-btn" href="dashboard.html">Go Home</a>
+  <button class="err-link" onclick="document.getElementById('errorDetail').style.display='block'">Show details</button>
 </div>
+
+
+
+
+
+
+
+
+
 
 <iframe id="siteFrame" title="Published Site" allowfullscreen></iframe>
 
@@ -142,183 +142,157 @@ body{font-family:'Inter',sans-serif;background:#0f0f13;color:#e8e8f0;min-height:
     </div>
   </div>
 </div>
-
 <div id="shareToast"></div>
 
 <script type="module">
-// ── Firebase initialised directly here so viewer.html works
-// standalone with no dependency on relative firebase.js path ──
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// ── Your Firebase config (same as firebase.js) ────────────
+
+
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyChRX9Ma4aP9BE84u685CYBDT_MMHqBT9g",
   authDomain:        "frodecorp.firebaseapp.com",
   projectId:         "frodecorp",
   storageBucket:     "frodecorp.firebasestorage.app",
   messagingSenderId: "549192414715",
-  appId:             "1:549192414715:web:7c40c152da652b875cc75e",
+  appId:             "1:549192414755:web:7c40c152da652b875cc75e",
+  measurementId: "G-EEVF8YE3XK",
 };
 
-// Avoid double-init if Firebase already running on page
 const app  = getApps().length ? getApps()[0] : initializeApp(FIREBASE_CONFIG);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 
-// ── DOM refs ──────────────────────────────────────────────
-const loadEl     = document.getElementById("loadingState");
-const loadStatus = document.getElementById("loadStatus");
-const errorEl    = document.getElementById("errorState");
-const errorMsg   = document.getElementById("errorMsg");
-const errorDetail= document.getElementById("errorDetail");
-const frameEl    = document.getElementById("siteFrame");
-const titleEl    = document.getElementById("siteTitle");
-const editBtn    = document.getElementById("editBtn");
-const shareInput = document.getElementById("shareUrlInput");
-const shareOpen  = document.getElementById("shareOpenLink");
+const $ = id => document.getElementById(id);
+const loadEl      = $("loadingState");
+const loadStatus  = $("loadStatus");
+const errorEl     = $("errorState");
+const errorMsg    = $("errorMsg");
+const errorDetail = $("errorDetail");
+const frameEl     = $("siteFrame");
+const titleEl     = $("siteTitle");
+const editBtn     = $("editBtn");
 
 const currentUrl = location.href;
-if (shareInput) shareInput.value = currentUrl;
-if (shareOpen)  shareOpen.href   = currentUrl;
+$("shareUrlInput").value = currentUrl;
+$("shareOpenLink").href  = currentUrl;
 
-// ── Get site ID from URL ──────────────────────────────────
+// ── Parse ?id= from URL ───────────────────────────────────
 const params = new URLSearchParams(location.search);
-const siteId = params.get("id");
+const siteId = (params.get("id") || "").trim();
 
-setStatus("Reading URL…");
+status("Checking URL…");
 
-if (!siteId || siteId.trim() === "") {
-  showError("No site ID in URL.", "Add ?id=SITEID to the URL. Example: viewer.html?id=abc12345");
+if (!siteId) {
+  showError("No site ID provided.", "The URL must include ?id=YOURSITEID\n\nExample: viewer.html?id=abc12345");
 } else {
-  setStatus("Loading site "" + siteId + "" from Firestore…");
+  status("Loading site [" + siteId + "]…");
   loadSite(siteId);
 }
 
-// ── Silently check owner to show Edit button ──────────────
+// Show Edit button if viewer is the owner
 onAuthStateChanged(auth, user => {
-  if (!user || !siteId) return;
-  if (user.uid.startsWith(siteId) || user.uid.substr(0, 8) === siteId) {
+  if (user && siteId && user.uid.substring(0, 8) === siteId) {
     editBtn.style.display = "flex";
   }
 });
 
-// ── 10-second timeout guard ───────────────────────────────
-const loadTimeout = setTimeout(() => {
-  // If still showing spinner after 10s, something is wrong
+// Safety timeout — 12 seconds
+const timer = setTimeout(() => {
   if (loadEl.style.display !== "none") {
     showError(
-      "Loading timed out.",
-      "Firestore did not respond in 10 seconds. Check your internet connection and Firestore security rules. Make sure published_sites/" + siteId + " exists and has: allow read: if true;"
+      "Timed out loading site.",
+      "Firestore did not respond within 12 seconds.\n\n" +
+      "Check:\n• Your internet connection\n• Firestore rules have: allow read: if true;\n• The document published_sites/" + siteId + " exists in Firestore"
     );
   }
-}, 10000);
+}, 12000);
 
-// ── Main load function ────────────────────────────────────
 async function loadSite(id) {
   try {
-    setStatus("Connecting to database…");
-
-    const docRef  = doc(db, "published_sites", id);
-    const snap    = await getDoc(docRef);
-
-    clearTimeout(loadTimeout);
+    status("Fetching from Firestore…");
+    const snap = await getDoc(doc(db, "published_sites", id));
+    clearTimeout(timer);
 
     if (!snap.exists()) {
       showError(
-        "Site \"" + id + "\" not found.",
-        "No document found at published_sites/" + id + ". Make sure the site has been published from the editor."
+        "Site not found.",
+        "No document at published_sites/" + id + "\n\nMake sure you've published your site from the editor at least once."
       );
       return;
     }
-
-    setStatus("Rendering site…");
 
     const data = snap.data();
+    status("Rendering…");
+
     const name = data.title || "My Site";
-
     titleEl.textContent = name;
-    document.title      = name + " — Frodecorp";
+    document.title = name + " — Frodecorp";
 
-    const html = data.html;
-
-    if (!html || html.trim() === "") {
-      showError(
-        "Site has no content.",
-        "The document exists but the html field is empty. Try publishing again from the editor."
-      );
+    const html = data.html || "";
+    if (!html.trim()) {
+      showError("Site is empty.", "The site was published but has no HTML content. Open the editor, add some elements, and publish again.");
       return;
     }
 
-    // Render in iframe — srcdoc keeps it same-origin so height resize works
+    // Write into iframe via srcdoc (same-origin, no CORS issues)
     frameEl.srcdoc = html;
 
     frameEl.addEventListener("load", () => {
-      // Hide spinner, show iframe
-      loadEl.style.display   = "none";
-      frameEl.style.display  = "block";
+      loadEl.style.display  = "none";
+      frameEl.style.display = "block";
 
-      // Auto-size iframe to its content
+      // Size iframe to content
       try {
-        const iDoc = frameEl.contentDocument || frameEl.contentWindow?.document;
-        if (iDoc && iDoc.body) {
-          const h = Math.max(iDoc.body.scrollHeight, window.innerHeight - 52);
-          frameEl.style.height = h + "px";
-
-          // Re-check height after images/fonts load
-          setTimeout(() => {
-            try {
-              const h2 = Math.max(iDoc.body.scrollHeight, window.innerHeight - 52);
-              frameEl.style.height = h2 + "px";
-            } catch(_) {}
-          }, 1500);
+        const body = frameEl.contentDocument?.body;
+        if (body) {
+          const setH = () => {
+            frameEl.style.height = Math.max(body.scrollHeight, window.innerHeight - 52) + "px";
+          };
+          setH();
+          setTimeout(setH, 800);
+          setTimeout(setH, 2000);
         }
-      } catch (e) {
-        // Fallback
+      } catch(_) {
         frameEl.style.height = (window.innerHeight - 52) + "px";
       }
     }, { once: true });
 
-  } catch (err) {
-    clearTimeout(loadTimeout);
-    console.error("Viewer error:", err);
+  } catch(err) {
+    clearTimeout(timer);
+    console.error(err);
     showError(
-      "Failed to load site.",
-      err.code ? (err.code + ": " + err.message) : err.message
+      "Failed to load: " + (err.code || err.name || "Error"),
+      err.message + "\n\nCode: " + (err.code || "none")
     );
   }
 }
 
-// ── Helpers ───────────────────────────────────────────────
-function setStatus(msg) {
-  if (loadStatus) loadStatus.textContent = msg;
-}
+function status(msg) { if (loadStatus) loadStatus.textContent = msg; }
 
 function showError(msg, detail) {
-  clearTimeout(loadTimeout);
+  clearTimeout(timer);
   loadEl.style.display  = "none";
   errorEl.style.display = "flex";
-  if (errorMsg)    errorMsg.textContent    = msg    || "Something went wrong.";
-  if (errorDetail) errorDetail.textContent = detail || "";
-  titleEl.textContent = "Error";
+  errorMsg.textContent    = msg;
+  errorDetail.textContent = detail || "";
+  titleEl.textContent   = "Error";
 }
 
-// ── Share ─────────────────────────────────────────────────
-window.openShareModal  = () => document.getElementById("shareModal").classList.add("open");
-window.closeShareModal = () => document.getElementById("shareModal").classList.remove("open");
+window.openShareModal  = () => $("shareModal").classList.add("open");
+window.closeShareModal = () => $("shareModal").classList.remove("open");
 window.copyShareUrl    = () => {
   navigator.clipboard.writeText(currentUrl).then(() => {
-    const t = document.getElementById("shareToast");
+    const t = $("shareToast");
     t.textContent = "Link copied!";
     t.classList.add("show");
     clearTimeout(t._t);
     t._t = setTimeout(() => t.classList.remove("show"), 2400);
   });
 };
-document.getElementById("shareModal").addEventListener("click", e => {
-  if (e.target === document.getElementById("shareModal")) closeShareModal();
-});
+$("shareModal").addEventListener("click", e => { if (e.target === $("shareModal")) closeShareModal(); });
 </script>
 </body>
 </html>
